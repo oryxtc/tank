@@ -15,6 +15,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/迷雾', 'Tank\PlayerController@init');
+Route::post('/init', 'Tank\PlayerController@init');
 Route::post('/player/init', 'Tank\PlayerController@init');
 
 Route::post('/player/action', 'Tank\PlayerController@action');
