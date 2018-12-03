@@ -16,20 +16,19 @@ use Illuminate\Support\Facades\Log;
 
 class PlayerController extends Controller
 {
-    private $team;
-    private $enemyTeam;
-    private $teamId;
-    private $enemyTeamId;
-    private $mapRowLen;
-    private $mapColLen;
+    public $team;
+    public $enemyTeam;
+    public $teamId;
+    public $enemyTeamId;
+    public $mapRowLen;
+    public $mapColLen;
 
-    private $newMap = [];
+    public $newMap = [];
 
 
     public function __construct()
     {
         $request           = Request()->all();
-        Log::info($request);
         $this->team        = $request['team'];
         $this->enemyTeam   = $this->team === 'tB' ? 'tC' : 'tB';
         $this->teamId      = substr($this->team, -1);
@@ -73,52 +72,25 @@ class PlayerController extends Controller
                 if (preg_match("/{$this->teamId}\d/", $newItem['element'])) {
                     //获取当前坦克信息
                     $tankData = $teamTanks[$newItem['element']];
-                    $noteData = (new TankModel())->computeRoute(array_merge($tankData,$newItem), $newRowKey, $newColKey, $newMap);
-                    $responseData[]=[
+                    //优先攻击
+                    $noteData = (new TankModel())->computeAttack(array_merge($tankData, $newItem), $newRowKey, $newColKey, $newMap);
+                    //次要移动
+                    if (empty($noteData)) {
+                        $noteData = (new TankModel())->computeRoute(array_merge($tankData, $newItem), $newRowKey, $newColKey, $newMap);
+                    }
+                    //最后随机
+                    if (empty($noteData)) {
+                        $noteData = (new TankModel())->computeRandom(array_merge($tankData, $newItem), $newRowKey, $newColKey, $newMap);
+                    }
+                    $responseData[] = [
                         'tId'       => $tankData['tId'],
                         'direction' => $noteData['direction'],
                         'type'      => $noteData['type'],
-                        'length'    => 1,
-                        'useGlod'   => false
-                    ];
+                        'length'    => $noteData['length'],
+                        'useGlod'   => false];
                 }
             }
         }
-        Log::info('$responseData',$responseData);
-
-
-//        $responseData = [
-//            [
-//                'tId'       => "{$this->teamId}1",
-//                'direction' => 'DOWN',
-//                'type'      => 'MOVE',
-//                'length'    => 1,
-//                'useGlod'   => true
-//            ],
-//            [
-//                'tId'       => "{$this->teamId}2",
-//                'direction' => 'DOWN',
-//                'type'      => 'FIRE',
-//                'length'    => 1,
-//                'useGlod'   => false],
-//            [
-//                'tId'       => "{$this->teamId}3",
-//                'direction' => 'DOWN',
-//                'type'      => 'FIRE',
-//                'length'    => 1,
-//                'useGlod'   => false],
-//            [
-//                'tId'       => "{$this->teamId}4",
-//                'direction' => 'DOWN',
-//                'type'      => 'FIRE',
-//                'length'    => 1,
-//                'useGlod'   => false],
-//            [
-//                'tId'       => "{$this->teamId}5",
-//                'direction' => 'DOWN',
-//                'type'      => 'FIRE',
-//                'length'    => 1,
-//                'useGlod'   => false],];
 
         return $this->apiReturn($responseData, '/action');
     }
