@@ -73,21 +73,26 @@ class PlayerController extends Controller
                     //获取当前坦克信息
                     $tankData = $teamTanks[$newItem['element']];
                     //优先攻击
+                    $falg=1;
                     $noteData = (new TankModel())->computeAttack(array_merge($tankData, $newItem), $newRowKey, $newColKey, $newMap);
                     //次要移动
                     if (empty($noteData)) {
+                        $falg=2;
                         $noteData = (new TankModel())->computeRoute(array_merge($tankData, $newItem), $newRowKey, $newColKey, $newMap);
                     }
                     //最后随机
                     if (empty($noteData)) {
+                        $falg=3;
                         $noteData = (new TankModel())->computeRandom(array_merge($tankData, $newItem), $newRowKey, $newColKey, $newMap);
                     }
+                    Log::info($falg);
+                    $useGlod = (new TankModel())->computeGlod(array_merge($tankData, $newItem));
                     $responseData[] = [
                         'tId'       => $tankData['tId'],
                         'direction' => $noteData['direction'],
                         'type'      => $noteData['type'],
                         'length'    => $noteData['length'],
-                        'useGlod'   => false];
+                        'useGlod'   => $useGlod];
                 }
             }
         }

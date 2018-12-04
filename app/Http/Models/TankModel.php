@@ -19,22 +19,22 @@ class TankModel
         'M1' => 0,
         'M2' => 100,
         'M3' => 10,
-        'M4' => -50,
-        'M5' => -50,
-        'M6' => -50,
-        'M7' => -50,
-        'M8' => -50,
-        'A1' => 10,
+        'M4' => -350,
+        'M5' => -350,
+        'M6' => -350,
+        'M7' => -350,
+        'M8' => -350,
+        'A1' => 25,
         'B1' => 20,
         'B2' => 20,
-        'B3' => 10,
-        'B4' => 10,
-        'B5' => 10,
+        'B3' => 15,
+        'B4' => 15,
+        'B5' => 15,
         'C1' => 20,
         'C2' => 20,
-        'C3' => 10,
-        'C4' => 10,
-        'C5' => 10,];
+        'C3' => 15,
+        'C4' => 15,
+        'C5' => 15,];
 
     public static $elementFlog = [
         'M1' => 1,
@@ -292,6 +292,7 @@ class TankModel
                 }
             }
         }
+
         if (empty($tempArea)) {
             return [];
         }
@@ -303,9 +304,6 @@ class TankModel
             return ($a['weights'] < $b['weights']) ? 1 : -1;
         });
         $weightsMax = $tempArea[0]['weights'];
-        if ($weightsMax == 0) {
-            return [];
-        }
         //过滤剩下相同最大权重值
         $tempArea = array_filter($tempArea, function ($item) use ($weightsMax) {
             return $item['weights'] == $weightsMax;
@@ -317,6 +315,11 @@ class TankModel
             }
             return ($a['directionWeights'] < $b['directionWeights']) ? 1 : -1;
         });
+
+        $directionWeightsMax = $tempArea[0]['directionWeights'];
+        if ($directionWeightsMax == 0) {
+            return [];
+        }
         $areaWeightsMax = $tempArea[0];
         return $areaWeightsMax;
     }
@@ -396,6 +399,7 @@ class TankModel
                     $noteArea['length']    = $lengthMax;
                     $noteArea['direction'] = $key;
                     //方向权重
+                    $noteArea['directionWeights'] = $this->computeRandomDirectWeights($noteArea['row'], $noteArea['col'], $key, $map);
                     $tempArea[] = $noteArea;
                     unset($noteArea);
 
@@ -406,7 +410,9 @@ class TankModel
                     if ($elementCol >= count($map[0], 0)) {
                         break;
                     }
+
                     $noteArea = $map[$row][$elementCol];
+                    Log::info($noteArea);
                     //判断是否能移动到此位置
                     $notMove = ($tank['flag'] | $noteArea['flag']) == 6 || ($tank['flag'] | $noteArea['flag']) >= 10 || ($tank['flag'] | $noteArea['flag']) == $tank['flag'];
                     if ($notMove) {
@@ -418,6 +424,7 @@ class TankModel
                     $noteArea['length']    = $lengthMax;
                     $noteArea['direction'] = $key;
                     //方向权重
+                    $noteArea['directionWeights'] = $this->computeRandomDirectWeights($noteArea['row'], $noteArea['col'], $key, $map);
                     $tempArea[] = $noteArea;
                     unset($noteArea);
                 }
@@ -439,6 +446,7 @@ class TankModel
                     $noteArea['length']    = $lengthMax;
                     $noteArea['direction'] = $key;
                     //方向权重
+                    $noteArea['directionWeights'] = $this->computeRandomDirectWeights($noteArea['row'], $noteArea['col'], $key, $map);
                     $tempArea[] = $noteArea;
                     unset($noteArea);
                 }
@@ -460,6 +468,7 @@ class TankModel
                     $noteArea['length']    = $lengthMax;
                     $noteArea['direction'] = $key;
                     //方向权重
+                    $noteArea['directionWeights'] = $this->computeRandomDirectWeights($noteArea['row'], $noteArea['col'], $key, $map);
                     $tempArea[] = $noteArea;
                     unset($noteArea);
                 }
@@ -472,10 +481,76 @@ class TankModel
                 'direction' => 'DOWN',
                 'length'    => 1,];
         }
-        //随机一个方向
-        $randomKey      = array_rand($tempArea, 1);
-        $areaWeightsMax = $tempArea[$randomKey];
-        Log::info($randomKey);
+        //排序权重最大的
+        usort($tempArea, function ($a, $b) {
+            if ($a['directionWeights'] == $b['directionWeights']) {
+                return 0;
+            }
+            return ($a['directionWeights'] < $b['directionWeights']) ? 1 : -1;
+        });
+        $areaWeightsMax = $tempArea[0];
         return $areaWeightsMax;
+    }
+
+    public function computeRandomDirectWeights($row, $col, $direction, $map)
+    {
+        $teamId      = (new PlayerController())->teamId;
+        $weights = 0;
+        if ($direction === 'UP') {
+            for ($i = $row - 1; $i >= 0; $i--) {
+                for($k=0;$k<count($map[0], 0);$k++)
+                if (preg_match("/{$teamId}\d{1}/", $map[$i][$k]['element'])) {
+//                    $weights -= 30;
+                } else if(preg_match("/M[4-8]{1}/", $map[$i][$k]['element'])){
+
+                }else{
+                    $weights += $map[$i][$k]['weights'];
+                }
+            }
+        } elseif ($direction === 'RIGHT') {
+            for ($i = $col + 1; $i < count($map[0], 0); $i++) {
+                for($k=0;$k<count($map, 0);$k++)
+                    if (preg_match("/{$teamId}\d{1}/", $map[$k][$i]['element'])) {
+                        //                    $weights -= 30;
+                    } else if(preg_match("/M[4-8]{1}/", $map[$k][$i]['element'])){
+
+                    }else{
+                        $weights += $map[$k][$i]['weights'];
+                    }
+            }
+        } elseif ($direction === 'DOWN') {
+            for ($i = $row + 1; $i < count($map, 0); $i++) {
+                for($k=0;$k<count($map[0], 0);$k++)
+                    if (preg_match("/{$teamId}\d{1}/", $map[$i][$k]['element'])) {
+                        //                    $weights -= 30;
+                    } else if(preg_match("/M[4-8]{1}/", $map[$i][$k]['element'])){
+
+                    }else{
+                        $weights += $map[$i][$k]['weights'];
+                    }
+            }
+        } elseif ($direction === 'LEFT') {
+            for ($i = $col - 1; $i >= 0; $i--) {
+                for($k=0;$k<count($map, 0);$k++)
+                    if (preg_match("/{$teamId}\d{1}/", $map[$k][$i]['element'])) {
+                        //                    $weights -= 30;
+                    } else if(preg_match("/M[4-8]{1}/", $map[$k][$i]['element'])){
+
+                    }else{
+                        $weights += $map[$k][$i]['weights'];
+                    }
+            }
+        }
+        return $weights;
+    }
+
+
+    public function computeGlod($tank){
+        $shengming=$tank['shengming'];
+        $shengyushengming=$tank['shengyushengming'];
+        if ($shengyushengming==0 | $shengyushengming==1){
+            return true;
+        }
+        return false;
     }
 }
