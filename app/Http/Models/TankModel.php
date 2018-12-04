@@ -10,6 +10,7 @@ namespace App\Http\Models;
 
 
 use App\Http\Controllers\Tank\PlayerController;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
 class TankModel
@@ -81,12 +82,14 @@ class TankModel
                     }
                     $noteArea = $map[$elementRow][$col];
                     //判断是否有物体能被射击
-                    $canAttack = preg_match("/{$enemyTeamId}\d/", $noteArea['element']);
-                    if (!$canAttack) {
-                        continue;
+                    //判断是否有物体能被射击
+                    $boos = (new PlayerController())->boos;
+                    if ($noteArea['element'] === 'A1' && $boos['shengyushengming'] <= $tank['gongji']) {
+                        $canAttack = true;
+                    } else {
+                        $canAttack = preg_match("/{$enemyTeamId}\d/", $noteArea['element']);
                     }
-                    //判断该物体是否已经死亡
-                    if ($enemyTeamTanks[$noteArea['element']]['shengyushengming'] == 0) {
+                    if (!$canAttack) {
                         continue;
                     }
                     $noteArea['row']       = $elementRow;
@@ -107,12 +110,13 @@ class TankModel
                     }
                     $noteArea = $map[$row][$elementCol];
                     //判断是否有物体能被射击
-                    $canAttack = preg_match("/{$enemyTeamId}\d/", $noteArea['element']);
-                    if (!$canAttack) {
-                        continue;
+                    $boos = (new PlayerController())->boos;
+                    if ($noteArea['element'] === 'A1' && $boos['shengyushengming'] <= $tank['gongji']) {
+                        $canAttack = true;
+                    } else {
+                        $canAttack = preg_match("/{$enemyTeamId}\d/", $noteArea['element']);
                     }
-                    //判断该物体是否已经死亡
-                    if ($enemyTeamTanks[$noteArea['element']]['shengyushengming'] == 0) {
+                    if (!$canAttack) {
                         continue;
                     }
                     $noteArea['row']       = $row;
@@ -132,12 +136,14 @@ class TankModel
                     }
                     $noteArea = $map[$elementRow][$col];
                     //判断是否有物体能被射击
-                    $canAttack = preg_match("/{$enemyTeamId}\d/", $noteArea['element']);
-                    if (!$canAttack) {
-                        continue;
+                    //判断是否有物体能被射击
+                    $boos = (new PlayerController())->boos;
+                    if ($noteArea['element'] === 'A1' && $boos['shengyushengming'] <= $tank['gongji']) {
+                        $canAttack = true;
+                    } else {
+                        $canAttack = preg_match("/{$enemyTeamId}\d/", $noteArea['element']);
                     }
-                    //判断该物体是否已经死亡
-                    if ($enemyTeamTanks[$noteArea['element']]['shengyushengming'] == 0) {
+                    if (!$canAttack) {
                         continue;
                     }
                     $noteArea['row']       = $elementRow;
@@ -157,12 +163,14 @@ class TankModel
                     }
                     $noteArea = $map[$row][$elementCol];
                     //判断是否有物体能被射击
-                    $canAttack = preg_match("/{$enemyTeamId}\d/", $noteArea['element']);
-                    if (!$canAttack) {
-                        continue;
+                    //判断是否有物体能被射击
+                    $boos = (new PlayerController())->boos;
+                    if ($noteArea['element'] === 'A1' && $boos['shengyushengming'] <= $tank['gongji']) {
+                        $canAttack = true;
+                    } else {
+                        $canAttack = preg_match("/{$enemyTeamId}\d/", $noteArea['element']);
                     }
-                    //判断该物体是否已经死亡
-                    if ($enemyTeamTanks[$noteArea['element']]['shengyushengming'] == 0) {
+                    if (!$canAttack) {
                         continue;
                     }
                     $noteArea['row']       = $row;
@@ -400,7 +408,7 @@ class TankModel
                     $noteArea['direction'] = $key;
                     //方向权重
                     $noteArea['directionWeights'] = $this->computeRandomDirectWeights($noteArea['row'], $noteArea['col'], $key, $map);
-                    $tempArea[] = $noteArea;
+                    $tempArea[]                   = $noteArea;
                     unset($noteArea);
 
                 }
@@ -410,9 +418,7 @@ class TankModel
                     if ($elementCol >= count($map[0], 0)) {
                         break;
                     }
-
                     $noteArea = $map[$row][$elementCol];
-                    Log::info($noteArea);
                     //判断是否能移动到此位置
                     $notMove = ($tank['flag'] | $noteArea['flag']) == 6 || ($tank['flag'] | $noteArea['flag']) >= 10 || ($tank['flag'] | $noteArea['flag']) == $tank['flag'];
                     if ($notMove) {
@@ -425,7 +431,7 @@ class TankModel
                     $noteArea['direction'] = $key;
                     //方向权重
                     $noteArea['directionWeights'] = $this->computeRandomDirectWeights($noteArea['row'], $noteArea['col'], $key, $map);
-                    $tempArea[] = $noteArea;
+                    $tempArea[]                   = $noteArea;
                     unset($noteArea);
                 }
             } elseif ($key === 'DOWN') {
@@ -447,7 +453,7 @@ class TankModel
                     $noteArea['direction'] = $key;
                     //方向权重
                     $noteArea['directionWeights'] = $this->computeRandomDirectWeights($noteArea['row'], $noteArea['col'], $key, $map);
-                    $tempArea[] = $noteArea;
+                    $tempArea[]                   = $noteArea;
                     unset($noteArea);
                 }
             } else if ($key === 'LEFT') {
@@ -469,7 +475,7 @@ class TankModel
                     $noteArea['direction'] = $key;
                     //方向权重
                     $noteArea['directionWeights'] = $this->computeRandomDirectWeights($noteArea['row'], $noteArea['col'], $key, $map);
-                    $tempArea[] = $noteArea;
+                    $tempArea[]                   = $noteArea;
                     unset($noteArea);
                 }
             }
@@ -494,49 +500,49 @@ class TankModel
 
     public function computeRandomDirectWeights($row, $col, $direction, $map)
     {
-        $teamId      = (new PlayerController())->teamId;
+        $teamId  = (new PlayerController())->teamId;
         $weights = 0;
         if ($direction === 'UP') {
             for ($i = $row - 1; $i >= 0; $i--) {
-                for($k=0;$k<count($map[0], 0);$k++)
-                if (preg_match("/{$teamId}\d{1}/", $map[$i][$k]['element'])) {
-//                    $weights -= 30;
-                } else if(preg_match("/M[4-8]{1}/", $map[$i][$k]['element'])){
+                for ($k = 0; $k < count($map[0], 0); $k++)
+                    if (preg_match("/{$teamId}\d{1}/", $map[$i][$k]['element'])) {
+                        //                    $weights -= 30;
+                    } else if (preg_match("/M[4-8]{1}/", $map[$i][$k]['element'])) {
 
-                }else{
-                    $weights += $map[$i][$k]['weights'];
-                }
+                    } else {
+                        $weights += $map[$i][$k]['weights'];
+                    }
             }
         } elseif ($direction === 'RIGHT') {
             for ($i = $col + 1; $i < count($map[0], 0); $i++) {
-                for($k=0;$k<count($map, 0);$k++)
+                for ($k = 0; $k < count($map, 0); $k++)
                     if (preg_match("/{$teamId}\d{1}/", $map[$k][$i]['element'])) {
                         //                    $weights -= 30;
-                    } else if(preg_match("/M[4-8]{1}/", $map[$k][$i]['element'])){
+                    } else if (preg_match("/M[4-8]{1}/", $map[$k][$i]['element'])) {
 
-                    }else{
+                    } else {
                         $weights += $map[$k][$i]['weights'];
                     }
             }
         } elseif ($direction === 'DOWN') {
             for ($i = $row + 1; $i < count($map, 0); $i++) {
-                for($k=0;$k<count($map[0], 0);$k++)
+                for ($k = 0; $k < count($map[0], 0); $k++)
                     if (preg_match("/{$teamId}\d{1}/", $map[$i][$k]['element'])) {
                         //                    $weights -= 30;
-                    } else if(preg_match("/M[4-8]{1}/", $map[$i][$k]['element'])){
+                    } else if (preg_match("/M[4-8]{1}/", $map[$i][$k]['element'])) {
 
-                    }else{
+                    } else {
                         $weights += $map[$i][$k]['weights'];
                     }
             }
         } elseif ($direction === 'LEFT') {
             for ($i = $col - 1; $i >= 0; $i--) {
-                for($k=0;$k<count($map, 0);$k++)
+                for ($k = 0; $k < count($map, 0); $k++)
                     if (preg_match("/{$teamId}\d{1}/", $map[$k][$i]['element'])) {
                         //                    $weights -= 30;
-                    } else if(preg_match("/M[4-8]{1}/", $map[$k][$i]['element'])){
+                    } else if (preg_match("/M[4-8]{1}/", $map[$k][$i]['element'])) {
 
-                    }else{
+                    } else {
                         $weights += $map[$k][$i]['weights'];
                     }
             }
@@ -545,10 +551,15 @@ class TankModel
     }
 
 
-    public function computeGlod($tank){
-        $shengming=$tank['shengming'];
-        $shengyushengming=$tank['shengyushengming'];
-        if ($shengyushengming==0 | $shengyushengming==1){
+    public function computeGlod($tank)
+    {
+        $shengming        = $tank['shengming'];
+        $shengyushengming = $tank['shengyushengming'];
+        if ($shengyushengming == 0 | $shengyushengming == 1) {
+            return true;
+        }
+        $startData = Cache::get('start_date');
+        if ((time() - $startData) > 5 * 60 - 30) {
             return true;
         }
         return false;
