@@ -18,7 +18,7 @@ class TankModel
 
     public static $elementWeights = [
         'M1' => 0,
-        'M2' => 100,
+        'M2' => 20000,
         'M3' => 10,
         'M4' => -350,
         'M5' => -350,
@@ -334,7 +334,7 @@ class TankModel
     {
         $weights = 0;
         if ($direction === 'UP') {
-            for ($i = $row - 1; $i >= 0; $i--) {
+            for ($i = $row; $i >= 0; $i--) {
                 if (preg_match("/[B,C]\d/", $map[$i][$col]['element'])) {
                     $weights -= 30;
                 } else {
@@ -342,7 +342,7 @@ class TankModel
                 }
             }
         } elseif ($direction === 'RIGHT') {
-            for ($i = $col + 1; $i < count($map[0], 0); $i++) {
+            for ($i = $col; $i < count($map[0], 0); $i++) {
                 if (preg_match("/[B,C]\d/", $map[$row][$i]['element'])) {
                     $weights -= 30;
                 } else {
@@ -350,7 +350,7 @@ class TankModel
                 }
             }
         } elseif ($direction === 'DOWN') {
-            for ($i = $row + 1; $i < count($map, 0); $i++) {
+            for ($i = $row; $i < count($map, 0); $i++) {
                 if (preg_match("/[B,C]\d/", $map[$i][$col]['element'])) {
                     $weights -= 30;
                 } else {
@@ -358,7 +358,7 @@ class TankModel
                 }
             }
         } elseif ($direction === 'LEFT') {
-            for ($i = $col - 1; $i >= 0; $i--) {
+            for ($i = $col; $i >= 0; $i--) {
                 if (preg_match("/[B,C]\d/", $map[$row][$i]['element'])) {
                     $weights -= 30;
                 } else {
@@ -377,16 +377,16 @@ class TankModel
      * @param $map
      * @return array|mixed
      */
-    public function computeRandom($tank, $row, $col, $map)
+    public function computeRandom($tank, $row, $col, $map, $findGlod = false)
     {
-        $lengthMax = $tank['yidong'];
-        $flagObstacle=false;
-        $area      = [
+        $lengthMax    = $tank['yidong'];
+        $flagObstacle = false;
+        $area         = [
             'DOWN'  => [],
             'RIGHT' => [],
             'LEFT'  => [],
             'UP'    => [],];
-        $tempArea  = [];
+        $tempArea     = [];
         foreach ($area as $key => $item) {
             if ($key === 'UP') {
                 for ($i = 1; $i <= $lengthMax; $i++) {
@@ -397,8 +397,8 @@ class TankModel
                     $noteArea = $map[$elementRow][$col];
                     //判断是否能移动到此位置
                     $notMove = ($tank['flag'] | $noteArea['flag']) == 6 || ($tank['flag'] | $noteArea['flag']) >= 10;
-                    if(($tank['flag'] | $noteArea['flag']) >= 10){
-                        $flagObstacle=true;
+                    if (($tank['flag'] | $noteArea['flag']) >= 10) {
+                        $flagObstacle = true;
                     }
                     if ($notMove) {
                         break;
@@ -406,7 +406,7 @@ class TankModel
                     $noteArea['row']       = $elementRow;
                     $noteArea['col']       = $col;
                     $noteArea['type']      = 'MOVE';
-                    $noteArea['length']    = $lengthMax;
+                    $noteArea['length']    = $i;
                     $noteArea['direction'] = $key;
                     //方向权重
                     $noteArea['directionWeights'] = $this->computeRandomDirectWeights($noteArea['row'], $noteArea['col'], $key, $map);
@@ -423,8 +423,8 @@ class TankModel
                     $noteArea = $map[$row][$elementCol];
                     //判断是否能移动到此位置
                     $notMove = ($tank['flag'] | $noteArea['flag']) == 6 || ($tank['flag'] | $noteArea['flag']) >= 10 || ($tank['flag'] | $noteArea['flag']) == $tank['flag'];
-                    if(($tank['flag'] | $noteArea['flag']) >= 10){
-                        $flagObstacle=true;
+                    if (($tank['flag'] | $noteArea['flag']) >= 10) {
+                        $flagObstacle = true;
                     }
                     if ($notMove) {
                         break;
@@ -432,7 +432,7 @@ class TankModel
                     $noteArea['row']       = $row;
                     $noteArea['col']       = $elementCol;
                     $noteArea['type']      = 'MOVE';
-                    $noteArea['length']    = $lengthMax;
+                    $noteArea['length']    = $i;
                     $noteArea['direction'] = $key;
                     //方向权重
                     $noteArea['directionWeights'] = $this->computeRandomDirectWeights($noteArea['row'], $noteArea['col'], $key, $map);
@@ -448,8 +448,8 @@ class TankModel
                     $noteArea = $map[$elementRow][$col];
                     //判断是否能移动到此位置
                     $notMove = ($tank['flag'] | $noteArea['flag']) == 6 || ($tank['flag'] | $noteArea['flag']) >= 10 || ($tank['flag'] | $noteArea['flag']) == $tank['flag'];
-                    if(($tank['flag'] | $noteArea['flag']) >= 10){
-                        $flagObstacle=true;
+                    if (($tank['flag'] | $noteArea['flag']) >= 10) {
+                        $flagObstacle = true;
                     }
                     if ($notMove) {
                         break;
@@ -457,7 +457,7 @@ class TankModel
                     $noteArea['row']       = $elementRow;
                     $noteArea['col']       = $col;
                     $noteArea['type']      = 'MOVE';
-                    $noteArea['length']    = $lengthMax;
+                    $noteArea['length']    = $i;
                     $noteArea['direction'] = $key;
                     //方向权重
                     $noteArea['directionWeights'] = $this->computeRandomDirectWeights($noteArea['row'], $noteArea['col'], $key, $map);
@@ -473,8 +473,8 @@ class TankModel
                     $noteArea = $map[$row][$elementCol];
                     //判断是否能移动到此位置
                     $notMove = ($tank['flag'] | $noteArea['flag']) == 6 || ($tank['flag'] | $noteArea['flag']) >= 10 || ($tank['flag'] | $noteArea['flag']) == $tank['flag'];
-                    if(($tank['flag'] | $noteArea['flag']) >= 10){
-                        $flagObstacle=true;
+                    if (($tank['flag'] | $noteArea['flag']) >= 10) {
+                        $flagObstacle = true;
                     }
                     if ($notMove) {
                         break;
@@ -482,7 +482,7 @@ class TankModel
                     $noteArea['row']       = $row;
                     $noteArea['col']       = $elementCol;
                     $noteArea['type']      = 'MOVE';
-                    $noteArea['length']    = $lengthMax;
+                    $noteArea['length']    = $i;
                     $noteArea['direction'] = $key;
                     //方向权重
                     $noteArea['directionWeights'] = $this->computeRandomDirectWeights($noteArea['row'], $noteArea['col'], $key, $map);
@@ -499,9 +499,9 @@ class TankModel
                 'length'    => 1,];
         }
         //排序方向权重最大情况
-        if($flagObstacle===true){
-            $areaWeightsMax=$this->randomDirection($tempArea);
-        }else{
+        if ($flagObstacle === true && $findGlod === false) {
+            $areaWeightsMax = $this->randomDirection($tempArea);
+        } else {
             //排序权重最大的
             usort($tempArea, function ($a, $b) {
                 if ($a['directionWeights'] == $b['directionWeights']) {
@@ -511,6 +511,11 @@ class TankModel
             });
             $areaWeightsMax = $tempArea[0];
         }
+        if ($findGlod === true && $areaWeightsMax['directionWeights'] >= 10000) {
+            return $areaWeightsMax;
+        } elseif ($findGlod === true && $areaWeightsMax['directionWeights'] < 10000) {
+            return [];
+        }
         return $areaWeightsMax;
     }
 
@@ -518,8 +523,11 @@ class TankModel
     {
         $teamId  = (new PlayerController())->teamId;
         $weights = 0;
+        if ($map[$row][$col]['element'] === 'M2') {
+            $weights += 30000;
+        }
         if ($direction === 'UP') {
-            for ($i = $row - 1; $i >= 0; $i--) {
+            for ($i = $row; $i >= 0; $i--) {
                 for ($k = 0; $k < count($map[0], 0); $k++)
                     if (preg_match("/{$teamId}\d{1}/", $map[$i][$k]['element'])) {
                         //                    $weights -= 30;
@@ -530,7 +538,7 @@ class TankModel
                     }
             }
         } elseif ($direction === 'RIGHT') {
-            for ($i = $col + 1; $i < count($map[0], 0); $i++) {
+            for ($i = $col; $i < count($map[0], 0); $i++) {
                 for ($k = 0; $k < count($map, 0); $k++)
                     if (preg_match("/{$teamId}\d{1}/", $map[$k][$i]['element'])) {
                         //                    $weights -= 30;
@@ -541,7 +549,7 @@ class TankModel
                     }
             }
         } elseif ($direction === 'DOWN') {
-            for ($i = $row + 1; $i < count($map, 0); $i++) {
+            for ($i = $row; $i < count($map, 0); $i++) {
                 for ($k = 0; $k < count($map[0], 0); $k++)
                     if (preg_match("/{$teamId}\d{1}/", $map[$i][$k]['element'])) {
                         //                    $weights -= 30;
@@ -552,7 +560,7 @@ class TankModel
                     }
             }
         } elseif ($direction === 'LEFT') {
-            for ($i = $col - 1; $i >= 0; $i--) {
+            for ($i = $col; $i >= 0; $i--) {
                 for ($k = 0; $k < count($map, 0); $k++)
                     if (preg_match("/{$teamId}\d{1}/", $map[$k][$i]['element'])) {
                         //                    $weights -= 30;
@@ -581,9 +589,10 @@ class TankModel
         return false;
     }
 
-    public function randomDirection($tempArea){
-        $randomNum=rand(0,count($tempArea,0)-1);
-        $randomDirection=$tempArea[$randomNum];
+    public function randomDirection($tempArea)
+    {
+        $randomNum       = rand(0, count($tempArea, 0) - 1);
+        $randomDirection = $tempArea[$randomNum];
         return $randomDirection;
     }
 }
