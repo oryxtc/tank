@@ -111,7 +111,7 @@ class TankModel
                     $noteArea = $map[$row][$elementCol];
                     //判断是否有物体能被射击
                     $boos = (new PlayerController())->boos;
-                    if ($noteArea['element'] === 'A1' && $boos['shengyushengming'] <= $tank['gongji']) {
+                    if ($noteArea['element'] === 'A1' && $boos['tanks'][0]['shengyushengming'] <= $tank['gongji']) {
                         $canAttack = true;
                     } else {
                         $canAttack = preg_match("/{$enemyTeamId}\d/", $noteArea['element']);
@@ -138,7 +138,7 @@ class TankModel
                     //判断是否有物体能被射击
                     //判断是否有物体能被射击
                     $boos = (new PlayerController())->boos;
-                    if ($noteArea['element'] === 'A1' && $boos['shengyushengming'] <= $tank['gongji']) {
+                    if ($noteArea['element'] === 'A1' && $boos['tanks'][0]['shengyushengming'] <= $tank['gongji']) {
                         $canAttack = true;
                     } else {
                         $canAttack = preg_match("/{$enemyTeamId}\d/", $noteArea['element']);
@@ -163,9 +163,8 @@ class TankModel
                     }
                     $noteArea = $map[$row][$elementCol];
                     //判断是否有物体能被射击
-                    //判断是否有物体能被射击
                     $boos = (new PlayerController())->boos;
-                    if ($noteArea['element'] === 'A1' && $boos['shengyushengming'] <= $tank['gongji']) {
+                    if ($noteArea['element'] === 'A1' && $boos['tanks'][0]['shengyushengming'] <= $tank['gongji']) {
                         $canAttack = true;
                     } else {
                         $canAttack = preg_match("/{$enemyTeamId}\d/", $noteArea['element']);
@@ -217,7 +216,7 @@ class TankModel
                     }
                     $noteArea = $map[$elementRow][$col];
                     //判断是否能移动到此位置
-                    $notMove = ($tank['flag'] | $noteArea['flag']) == 6 || ($tank['flag'] | $noteArea['flag']) >= 10;
+                    $notMove = ($tank['flag'] | $noteArea['flag']) == 6 || ($tank['flag'] | $noteArea['flag']) >= 10 || ($tank['flag'] | $noteArea['flag']) == $tank['flag'];
                     if ($notMove) {
                         break;
                     }
@@ -323,7 +322,6 @@ class TankModel
             }
             return ($a['directionWeights'] < $b['directionWeights']) ? 1 : -1;
         });
-
         $directionWeightsMax = $tempArea[0]['directionWeights'];
         if ($directionWeightsMax == 0) {
             return [];
@@ -382,6 +380,7 @@ class TankModel
     public function computeRandom($tank, $row, $col, $map)
     {
         $lengthMax = $tank['yidong'];
+        $flagObstacle=false;
         $area      = [
             'DOWN'  => [],
             'RIGHT' => [],
@@ -398,6 +397,9 @@ class TankModel
                     $noteArea = $map[$elementRow][$col];
                     //判断是否能移动到此位置
                     $notMove = ($tank['flag'] | $noteArea['flag']) == 6 || ($tank['flag'] | $noteArea['flag']) >= 10;
+                    if(($tank['flag'] | $noteArea['flag']) >= 10){
+                        $flagObstacle=true;
+                    }
                     if ($notMove) {
                         break;
                     }
@@ -421,6 +423,9 @@ class TankModel
                     $noteArea = $map[$row][$elementCol];
                     //判断是否能移动到此位置
                     $notMove = ($tank['flag'] | $noteArea['flag']) == 6 || ($tank['flag'] | $noteArea['flag']) >= 10 || ($tank['flag'] | $noteArea['flag']) == $tank['flag'];
+                    if(($tank['flag'] | $noteArea['flag']) >= 10){
+                        $flagObstacle=true;
+                    }
                     if ($notMove) {
                         break;
                     }
@@ -443,6 +448,9 @@ class TankModel
                     $noteArea = $map[$elementRow][$col];
                     //判断是否能移动到此位置
                     $notMove = ($tank['flag'] | $noteArea['flag']) == 6 || ($tank['flag'] | $noteArea['flag']) >= 10 || ($tank['flag'] | $noteArea['flag']) == $tank['flag'];
+                    if(($tank['flag'] | $noteArea['flag']) >= 10){
+                        $flagObstacle=true;
+                    }
                     if ($notMove) {
                         break;
                     }
@@ -465,6 +473,9 @@ class TankModel
                     $noteArea = $map[$row][$elementCol];
                     //判断是否能移动到此位置
                     $notMove = ($tank['flag'] | $noteArea['flag']) == 6 || ($tank['flag'] | $noteArea['flag']) >= 10 || ($tank['flag'] | $noteArea['flag']) == $tank['flag'];
+                    if(($tank['flag'] | $noteArea['flag']) >= 10){
+                        $flagObstacle=true;
+                    }
                     if ($notMove) {
                         break;
                     }
@@ -487,14 +498,19 @@ class TankModel
                 'direction' => 'DOWN',
                 'length'    => 1,];
         }
-        //排序权重最大的
-        usort($tempArea, function ($a, $b) {
-            if ($a['directionWeights'] == $b['directionWeights']) {
-                return 0;
-            }
-            return ($a['directionWeights'] < $b['directionWeights']) ? 1 : -1;
-        });
-        $areaWeightsMax = $tempArea[0];
+        //排序方向权重最大情况
+        if($flagObstacle===true){
+            $areaWeightsMax=$this->randomDirection($tempArea);
+        }else{
+            //排序权重最大的
+            usort($tempArea, function ($a, $b) {
+                if ($a['directionWeights'] == $b['directionWeights']) {
+                    return 0;
+                }
+                return ($a['directionWeights'] < $b['directionWeights']) ? 1 : -1;
+            });
+            $areaWeightsMax = $tempArea[0];
+        }
         return $areaWeightsMax;
     }
 
@@ -563,5 +579,11 @@ class TankModel
             return true;
         }
         return false;
+    }
+
+    public function randomDirection($tempArea){
+        $randomNum=rand(0,count($tempArea,0)-1);
+        $randomDirection=$tempArea[$randomNum];
+        return $randomDirection;
     }
 }

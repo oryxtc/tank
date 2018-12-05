@@ -109,12 +109,12 @@ class PlayerController extends Controller
                 $responseData[] = [
                     'tId'       => "{$this->teamId}{$i}",
                     'direction' => "WAIT",
-                    'type'      => "RIGHT",
+                    'type'      => "FIRE",
                     'length'    => "1",
                     'useGlod'   => true];
             }
         }
-        Log::info($responseData);
+//        Log::info($responseData);
         return $this->apiReturn($responseData, '/action');
     }
 }
