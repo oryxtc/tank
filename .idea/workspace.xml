@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="821fa07f-fd13-4c89-a910-14c947a1f474" name="Default Changelist" comment="finish fire BOSS">
+    <list default="true" id="821fa07f-fd13-4c89-a910-14c947a1f474" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Tank/PlayerController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Tank/PlayerController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Models/TankModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Models/TankModel.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -34,8 +33,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Tank/PlayerController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="588">
-              <caret line="93" selection-start-line="93" selection-end-line="93" />
+            <state relative-caret-position="492">
+              <caret line="61" selection-start-line="61" selection-end-line="61" />
               <folding>
                 <element signature="e#128#164#0#PHP" expanded="true" />
               </folding>
@@ -46,20 +45,11 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Http/Models/TankModel.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="529">
-              <caret line="525" column="12" selection-start-line="525" selection-start-column="12" selection-end-line="525" selection-end-column="12" />
+            <state relative-caret-position="384">
+              <caret line="21" column="18" selection-start-line="21" selection-start-column="16" selection-end-line="21" selection-end-column="18" />
               <folding>
                 <element signature="e#118#165#0#PHP" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/storage/logs/laravel-2018-12-05.log">
-          <provider selected="true" editor-type-id="LogFileEditorProvider">
-            <state relative-caret-position="-5808">
-              <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
             </state>
           </provider>
         </entry>
@@ -315,11 +305,18 @@
       <option name="project" value="LOCAL" />
       <updated>1543940427374</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="perfer">
+      <created>1544030073292</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1544030073292</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="51206000" />
+    <option name="totallyTimeSpent" value="53781000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -394,7 +391,8 @@
     <MESSAGE value="拆解2" />
     <MESSAGE value="finish fire" />
     <MESSAGE value="finish fire BOSS" />
-    <option name="LAST_COMMIT_MESSAGE" value="finish fire BOSS" />
+    <MESSAGE value="perfer" />
+    <option name="LAST_COMMIT_MESSAGE" value="perfer" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/config/app.php">
@@ -549,27 +547,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/storage/logs/laravel-2018-12-05.log">
-      <provider selected="true" editor-type-id="LogFileEditorProvider">
-        <state relative-caret-position="-5808">
-          <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Tank/PlayerController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="588">
-          <caret line="93" selection-start-line="93" selection-end-line="93" />
+        <state relative-caret-position="492">
+          <caret line="61" selection-start-line="61" selection-end-line="61" />
           <folding>
             <element signature="e#128#164#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/storage/logs/laravel-2018-12-05.log">
+      <provider selected="true" editor-type-id="LogFileEditorProvider">
+        <state relative-caret-position="-264">
+          <caret line="4" column="16" lean-forward="true" selection-start-line="4" selection-start-column="16" selection-end-line="4" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Models/TankModel.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="529">
-          <caret line="525" column="12" selection-start-line="525" selection-start-column="12" selection-end-line="525" selection-end-column="12" />
+        <state relative-caret-position="384">
+          <caret line="21" column="18" selection-start-line="21" selection-start-column="16" selection-end-line="21" selection-end-column="18" />
           <folding>
             <element signature="e#118#165#0#PHP" expanded="true" />
           </folding>

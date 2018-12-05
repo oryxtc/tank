@@ -58,6 +58,102 @@ class TankModel
         'C4' => 4,
         'C5' => 4,];
 
+    public static $BTanks=[
+        'B1'=>[
+            "name"=> "K2黑豹",
+            "gongji"=> 3,
+            "shengming"=> 5,
+            "shengyushengming"=> 5,
+            "yidong"=> 1,
+            "shecheng"=> 1,
+            "shiye"=> 1
+        ],
+        'B2'=>[
+            "name"=> "T-90",
+            "gongji"=> 1,
+            "shengming"=> 10,
+            "shengyushengming"=> 10,
+            "yidong"=> 1,
+            "shecheng"=> 1,
+            "shiye"=> 1
+        ],
+        'B3'=>[
+            "name"=> "K2黑豹",
+            "gongji"=> 3,
+            "shengming"=> 5,
+            "shengyushengming"=> 5,
+            "yidong"=> 1,
+            "shecheng"=> 1,
+            "shiye"=> 1
+        ],
+        'B4'=>[
+            "name"=> "阿马塔",
+            "gongji"=> 1,
+            "shengming"=> 4,
+            "shengyushengming"=> 4,
+            "yidong"=> 2,
+            "shecheng"=> 1,
+            "shiye"=> 2
+        ],
+        'B5'=>[
+            "name"=> "99主战坦克",
+            "gongji"=> 1,
+            "shengming"=> 3,
+            "shengyushengming"=> 3,
+            "yidong"=> 1,
+            "shecheng"=> 3,
+            "shiye"=> 1
+        ],
+    ];
+
+    public static $CTanks=[
+        'C1'=>[
+            "name"=> "K2黑豹",
+            "gongji"=> 3,
+            "shengming"=> 5,
+            "shengyushengming"=> 5,
+            "yidong"=> 1,
+            "shecheng"=> 1,
+            "shiye"=> 1
+        ],
+        'C2'=>[
+            "name"=> "T-90",
+            "gongji"=> 1,
+            "shengming"=> 10,
+            "shengyushengming"=> 10,
+            "yidong"=> 1,
+            "shecheng"=> 1,
+            "shiye"=> 1
+        ],
+        'C3'=>[
+            "name"=> "K2黑豹",
+            "gongji"=> 3,
+            "shengming"=> 5,
+            "shengyushengming"=> 5,
+            "yidong"=> 1,
+            "shecheng"=> 1,
+            "shiye"=> 1
+        ],
+        'C4'=>[
+            "name"=> "阿马塔",
+            "gongji"=> 1,
+            "shengming"=> 4,
+            "shengyushengming"=> 4,
+            "yidong"=> 2,
+            "shecheng"=> 1,
+            "shiye"=> 2
+        ],
+        'C5'=>[
+            "name"=> "99主战坦克",
+            "gongji"=> 1,
+            "shengming"=> 3,
+            "shengyushengming"=> 3,
+            "yidong"=> 1,
+            "shecheng"=> 3,
+            "shiye"=> 1
+        ],
+    ];
+
     public function computeAttack($tank, $row, $col, $map)
     {
         $requestData    = Request()->all();
@@ -82,13 +178,7 @@ class TankModel
                     }
                     $noteArea = $map[$elementRow][$col];
                     //判断是否有物体能被射击
-                    //判断是否有物体能被射击
-                    $boos = (new PlayerController())->boos;
-                    if ($noteArea['element'] === 'A1' && $boos['shengyushengming'] <= $tank['gongji']) {
-                        $canAttack = true;
-                    } else {
-                        $canAttack = preg_match("/{$enemyTeamId}\d/", $noteArea['element']);
-                    }
+                    $canAttack=$this->canAttack($tank,$noteArea,$enemyTeamId,$i);
                     if (!$canAttack) {
                         continue;
                     }
@@ -110,12 +200,7 @@ class TankModel
                     }
                     $noteArea = $map[$row][$elementCol];
                     //判断是否有物体能被射击
-                    $boos = (new PlayerController())->boos;
-                    if ($noteArea['element'] === 'A1' && $boos['tanks'][0]['shengyushengming'] <= $tank['gongji']) {
-                        $canAttack = true;
-                    } else {
-                        $canAttack = preg_match("/{$enemyTeamId}\d/", $noteArea['element']);
-                    }
+                    $canAttack=$this->canAttack($tank,$noteArea,$enemyTeamId,$i);
                     if (!$canAttack) {
                         continue;
                     }
@@ -136,13 +221,7 @@ class TankModel
                     }
                     $noteArea = $map[$elementRow][$col];
                     //判断是否有物体能被射击
-                    //判断是否有物体能被射击
-                    $boos = (new PlayerController())->boos;
-                    if ($noteArea['element'] === 'A1' && $boos['tanks'][0]['shengyushengming'] <= $tank['gongji']) {
-                        $canAttack = true;
-                    } else {
-                        $canAttack = preg_match("/{$enemyTeamId}\d/", $noteArea['element']);
-                    }
+                    $canAttack=$this->canAttack($tank,$noteArea,$enemyTeamId,$i);
                     if (!$canAttack) {
                         continue;
                     }
@@ -163,12 +242,7 @@ class TankModel
                     }
                     $noteArea = $map[$row][$elementCol];
                     //判断是否有物体能被射击
-                    $boos = (new PlayerController())->boos;
-                    if ($noteArea['element'] === 'A1' && $boos['tanks'][0]['shengyushengming'] <= $tank['gongji']) {
-                        $canAttack = true;
-                    } else {
-                        $canAttack = preg_match("/{$enemyTeamId}\d/", $noteArea['element']);
-                    }
+                    $canAttack=$this->canAttack($tank,$noteArea,$enemyTeamId,$i);
                     if (!$canAttack) {
                         continue;
                     }
@@ -188,6 +262,35 @@ class TankModel
         }
         $areaWeightsMax = $tempArea[0];
         return $areaWeightsMax;
+    }
+
+    public function canAttack($tank,$noteArea,$enemyTeamId,$shecheng){
+        $boos = (new PlayerController())->boos;
+        $teamId=(new PlayerController())->teamId;
+        if ($noteArea['element'] === 'A1' && $boos['tanks'][0]['shengyushengming'] <= $tank['gongji']) {
+            $canAttack = true;
+        } else {
+            $canAttack = preg_match("/{$enemyTeamId}\d/", $noteArea['element']);
+            if($canAttack){
+                $keyTanks="{$enemyTeamId}Tanks";
+                $tanksData=self::$$keyTanks;
+                //攻击小于敌方不打
+                if($tank['gongji']<$tanksData[$noteArea['element']]['gongji']){
+                    $canAttack=false;
+                }
+                //如果敌方是守 那只让我方守打
+                if(preg_match("/{$enemyTeamId}2/", $noteArea['element'])){
+                    if($tank['tId']!=="{$teamId}2"){
+                        $canAttack=false;
+                    }
+                }
+                //我方远射程 与敌方坦克距离小于等于1
+                if($tank['tId']==="{$teamId}5" && $shecheng<=1){
+                    $canAttack=false;
+                }
+            }
+        }
+        return $canAttack;
     }
 
     /**
