@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="821fa07f-fd13-4c89-a910-14c947a1f474" name="Default Changelist" comment="perfer">
+    <list default="true" id="821fa07f-fd13-4c89-a910-14c947a1f474" name="Default Changelist" comment="偏攻击性">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Tank/PlayerController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Tank/PlayerController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Models/TankModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Models/TankModel.php" afterDir="false" />
@@ -32,10 +32,19 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../demo/bin/maps/32X16">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="384">
+              <caret line="16" column="10" selection-start-line="16" selection-start-column="10" selection-end-line="16" selection-end-column="10" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Tank/PlayerController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-132">
-              <caret line="82" column="59" lean-forward="true" selection-start-line="82" selection-start-column="59" selection-end-line="82" selection-end-column="59" />
+            <state relative-caret-position="564">
+              <caret line="83" column="62" lean-forward="true" selection-start-line="83" selection-start-column="62" selection-end-line="83" selection-end-column="62" />
               <folding>
                 <element signature="e#128#164#0#PHP" expanded="true" />
               </folding>
@@ -46,10 +55,10 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Http/Models/TankModel.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="399">
-              <caret line="432" column="66" selection-start-line="432" selection-start-column="66" selection-end-line="432" selection-end-column="66" />
+            <state relative-caret-position="341">
+              <caret line="381" column="54" lean-forward="true" selection-start-line="381" selection-start-column="54" selection-end-line="381" selection-end-column="54" />
               <folding>
-                <element signature="e#118#165#0#PHP" expanded="true" />
+                <element signature="e#118#155#0#PHP" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -59,7 +68,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>local.INFO</find>
       <find>Log</find>
       <find>og::info</find>
       <find>LOG</find>
@@ -72,6 +80,9 @@
       <find>glod</find>
       <find>------------</find>
       <find>阿马塔</find>
+      <find>local.INFO</find>
+      <find>a1</find>
+      <find>new</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -188,17 +199,13 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
               <item name="tank" type="b2602c69:ProjectViewProjectNode" />
               <item name="tank" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="tank" type="b2602c69:ProjectViewProjectNode" />
-              <item name="tank" type="462c0819:PsiDirectoryNode" />
-              <item name="config" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="tank" type="b2602c69:ProjectViewProjectNode" />
@@ -215,7 +222,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -261,7 +267,8 @@
       <workItem from="1543844161360" duration="6985000" />
       <workItem from="1543927750541" duration="12582000" />
       <workItem from="1544017180646" duration="3972000" />
-      <workItem from="1544105437840" duration="3583000" />
+      <workItem from="1544105437840" duration="3737000" />
+      <workItem from="1544282481052" duration="6518000" />
     </task>
     <task id="LOCAL-00001" summary="finish init">
       <created>1543679527392</created>
@@ -326,17 +333,23 @@
       <option name="project" value="LOCAL" />
       <updated>1544032860141</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="偏攻击性">
+      <created>1544109215829</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1544109215830</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="57842000" />
+    <option name="totallyTimeSpent" value="64514000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16257995" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1641791" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -420,7 +433,8 @@
     <MESSAGE value="finish fire" />
     <MESSAGE value="finish fire BOSS" />
     <MESSAGE value="perfer" />
-    <option name="LAST_COMMIT_MESSAGE" value="perfer" />
+    <MESSAGE value="偏攻击性" />
+    <option name="LAST_COMMIT_MESSAGE" value="偏攻击性" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/config/app.php">
@@ -568,13 +582,6 @@
     <entry file="file://$PROJECT_DIR$/storage/logs/laravel-2018-12-04.log">
       <provider selected="true" editor-type-id="LogFileEditorProvider" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/../demo/bin/maps/32X16">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="3" column="38" selection-start-line="3" selection-start-column="38" selection-end-line="3" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/storage/logs/laravel-2018-12-05.log">
       <provider selected="true" editor-type-id="LogFileEditorProvider">
         <state relative-caret-position="-264">
@@ -589,10 +596,24 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/../demo/bin/maps/32X16">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="384">
+          <caret line="16" column="10" selection-start-line="16" selection-start-column="10" selection-end-line="16" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/storage/logs/laravel-2018-12-08.log">
+      <provider selected="true" editor-type-id="LogFileEditorProvider">
+        <state relative-caret-position="1342">
+          <caret line="76" lean-forward="true" selection-start-line="76" selection-end-line="76" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Tank/PlayerController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-132">
-          <caret line="82" column="59" lean-forward="true" selection-start-line="82" selection-start-column="59" selection-end-line="82" selection-end-column="59" />
+        <state relative-caret-position="564">
+          <caret line="83" column="62" lean-forward="true" selection-start-line="83" selection-start-column="62" selection-end-line="83" selection-end-column="62" />
           <folding>
             <element signature="e#128#164#0#PHP" expanded="true" />
           </folding>
@@ -601,10 +622,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Models/TankModel.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="399">
-          <caret line="432" column="66" selection-start-line="432" selection-start-column="66" selection-end-line="432" selection-end-column="66" />
+        <state relative-caret-position="341">
+          <caret line="381" column="54" lean-forward="true" selection-start-line="381" selection-start-column="54" selection-end-line="381" selection-end-column="54" />
           <folding>
-            <element signature="e#118#165#0#PHP" expanded="true" />
+            <element signature="e#118#155#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>

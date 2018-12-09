@@ -9,7 +9,6 @@
 namespace App\Http\Models;
 
 
-use App\Http\Controllers\Tank\PlayerController;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
@@ -142,21 +141,32 @@ class TankModel
             "shecheng"         => 3,
             "shiye"            => 1],];
 
+    public static $request;
+    public static $boss;
+    public static $team;
+    public static $teamId;
+    public static $enemyTeam;
+    public static $enemyTeamId;
+
+    public function __construct()
+    {
+        self::$request   = Request()->all();
+        self::$boss      = self::$request['tA'];
+        self::$team      = self::$request['team'];
+        self::$teamId    = substr(self::$team, -1);
+        self::$enemyTeam = self::$team === 'tB' ? 'tC' : 'tB';;
+        self::$enemyTeamId = self::$teamId === 'B' ? 'C' : 'B';;
+    }
+
     public function computeAttack($tank, $row, $col, $map)
     {
-        $requestData    = Request()->all();
-        $enemyTeam      = (new PlayerController())->enemyTeam;
-        $enemyTeamId    = (new PlayerController())->enemyTeamId;
-        $enemyTeamTanks = $requestData[$enemyTeam]['tanks'];
-        $enemyTeamTanks = array_column($enemyTeamTanks, null, 'tId');
-        $lengthMax      = $tank['yidong'];
-        $rangeMax       = $tank['shecheng'];
-        $area           = [
+        $rangeMax = $tank['shecheng'];
+        $area     = [
             'DOWN'  => [],
             'RIGHT' => [],
             'LEFT'  => [],
             'UP'    => [],];
-        $tempArea       = [];
+        $tempArea = [];
         foreach ($area as $key => $item) {
             if ($key === 'UP') {
                 for ($i = 1; $i <= $rangeMax; $i++) {
@@ -166,7 +176,7 @@ class TankModel
                     }
                     $noteArea = $map[$elementRow][$col];
                     //判断是否有物体能被射击
-                    $canAttack = $this->canAttack($tank, $noteArea, $enemyTeamId, $i);
+                    $canAttack = $this->canAttack($tank, $noteArea);
                     if (!$canAttack) {
                         continue;
                     }
@@ -188,7 +198,7 @@ class TankModel
                     }
                     $noteArea = $map[$row][$elementCol];
                     //判断是否有物体能被射击
-                    $canAttack = $this->canAttack($tank, $noteArea, $enemyTeamId, $i);
+                    $canAttack = $this->canAttack($tank, $noteArea);
                     if (!$canAttack) {
                         continue;
                     }
@@ -209,7 +219,7 @@ class TankModel
                     }
                     $noteArea = $map[$elementRow][$col];
                     //判断是否有物体能被射击
-                    $canAttack = $this->canAttack($tank, $noteArea, $enemyTeamId, $i);
+                    $canAttack = $this->canAttack($tank, $noteArea);
                     if (!$canAttack) {
                         continue;
                     }
@@ -230,7 +240,7 @@ class TankModel
                     }
                     $noteArea = $map[$row][$elementCol];
                     //判断是否有物体能被射击
-                    $canAttack = $this->canAttack($tank, $noteArea, $enemyTeamId, $i);
+                    $canAttack = $this->canAttack($tank, $noteArea);
                     if (!$canAttack) {
                         continue;
                     }
@@ -252,13 +262,11 @@ class TankModel
         return $areaWeightsMax;
     }
 
-    public function canAttack($tank, $noteArea, $enemyTeamId, $shecheng)
+    public function canAttack($tank, $noteArea)
     {
-        $canAttack=false;
-        $boos   = (new PlayerController())->boos;
-        $teamId = (new PlayerController())->teamId;
-        $team   = (new PlayerController())->team;
-        $gold   = (new PlayerController())->request[$team]['glod'];
+        $canAttack   = false;
+        $enemyTeamId = self::$enemyTeamId;
+        $boos        = self::$boss;
         if ($noteArea['element'] === 'A1' && $boos['tanks'][0]['shengyushengming'] <= $tank['gongji']) {
             $canAttack = true;
         } else if (preg_match("/{$enemyTeamId}\d/", $noteArea['element'])) {
@@ -279,8 +287,8 @@ class TankModel
             //                if($tank['tId']==="{$teamId}5" && $shecheng<=1){
             //                    $canAttack=false;
             //                }
-        }elseif($noteArea['element'] === 'A1'){
-            $canAttack=true;
+        } elseif ($noteArea['element'] === 'A1') {
+            $canAttack = true;
         }
         return $canAttack;
     }
@@ -425,40 +433,38 @@ class TankModel
         return $areaWeightsMax;
     }
 
+    private function computeDirectWeightsChild($weights, $noteArea)
+    {
+        $teamId      = self::$teamId;
+        $enemyTeamId = self::$enemyTeamId;
+        if (preg_match("/{$teamId}\d/", $noteArea['element'])) {
+            $weights -= 30;
+        } elseif (preg_match("/{$enemyTeamId}\d/", $noteArea['element'])) {
+            //                    $weights += 30;
+        } else {
+            $weights += $noteArea['weights'];
+        }
+        return $weights;
+    }
+
     public function computeDirectWeights($row, $col, $direction, $map)
     {
         $weights = 0;
         if ($direction === 'UP') {
             for ($i = $row; $i >= 0; $i--) {
-                if (preg_match("/[B,C]\d/", $map[$i][$col]['element'])) {
-                    $weights -= 30;
-                } else {
-                    $weights += $map[$i][$col]['weights'];
-                }
+                $weights = $this->computeDirectWeightsChild($weights, $map[$i][$col]);
             }
         } elseif ($direction === 'RIGHT') {
             for ($i = $col; $i < count($map[0], 0); $i++) {
-                if (preg_match("/[B,C]\d/", $map[$row][$i]['element'])) {
-                    $weights -= 30;
-                } else {
-                    $weights += $map[$row][$i]['weights'];
-                }
+                $weights = $this->computeDirectWeightsChild($weights, $map[$row][$i]);
             }
         } elseif ($direction === 'DOWN') {
             for ($i = $row; $i < count($map, 0); $i++) {
-                if (preg_match("/[B,C]\d/", $map[$i][$col]['element'])) {
-                    $weights -= 30;
-                } else {
-                    $weights += $map[$i][$col]['weights'];
-                }
+                $weights = $this->computeDirectWeightsChild($weights, $map[$i][$col]);
             }
         } elseif ($direction === 'LEFT') {
             for ($i = $col; $i >= 0; $i--) {
-                if (preg_match("/[B,C]\d/", $map[$row][$i]['element'])) {
-                    $weights -= 30;
-                } else {
-                    $weights += $map[$row][$i]['weights'];
-                }
+                $weights = $this->computeDirectWeightsChild($weights, $map[$row][$i]);
             }
         }
         return $weights;
@@ -616,7 +622,6 @@ class TankModel
 
     public function computeRandomDirectWeights($row, $col, $direction, $map)
     {
-        $teamId  = (new PlayerController())->teamId;
         $weights = 0;
         if ($map[$row][$col]['element'] === 'M2') {
             $weights += 30000;
@@ -624,47 +629,39 @@ class TankModel
         if ($direction === 'UP') {
             for ($i = $row; $i >= 0; $i--) {
                 for ($k = 0; $k < count($map[0], 0); $k++)
-                    if (preg_match("/{$teamId}\d{1}/", $map[$i][$k]['element'])) {
-                                            $weights += 30;
-                    } else if (preg_match("/M[4-8]{1}/", $map[$i][$k]['element'])) {
-
-                    } else {
-                        $weights += $map[$i][$k]['weights'];
-                    }
+                    $weights = $this->computeRandomDirectWeightsChild($weights, $map[$i][$k]);
             }
         } elseif ($direction === 'RIGHT') {
             for ($i = $col; $i < count($map[0], 0); $i++) {
                 for ($k = 0; $k < count($map, 0); $k++)
-                    if (preg_match("/{$teamId}\d{1}/", $map[$k][$i]['element'])) {
-                        $weights += 30;
-                    } else if (preg_match("/M[4-8]{1}/", $map[$k][$i]['element'])) {
-
-                    } else {
-                        $weights += $map[$k][$i]['weights'];
-                    }
+                    $weights = $this->computeRandomDirectWeightsChild($weights, $map[$k][$i]);
             }
         } elseif ($direction === 'DOWN') {
             for ($i = $row; $i < count($map, 0); $i++) {
                 for ($k = 0; $k < count($map[0], 0); $k++)
-                    if (preg_match("/{$teamId}\d{1}/", $map[$i][$k]['element'])) {
-                        $weights += 30;
-                    } else if (preg_match("/M[4-8]{1}/", $map[$i][$k]['element'])) {
-
-                    } else {
-                        $weights += $map[$i][$k]['weights'];
-                    }
+                    $weights = $this->computeRandomDirectWeightsChild($weights, $map[$i][$k]);
             }
         } elseif ($direction === 'LEFT') {
             for ($i = $col; $i >= 0; $i--) {
                 for ($k = 0; $k < count($map, 0); $k++)
-                    if (preg_match("/{$teamId}\d{1}/", $map[$k][$i]['element'])) {
-                        $weights += 30;
-                    } else if (preg_match("/M[4-8]{1}/", $map[$k][$i]['element'])) {
-
-                    } else {
-                        $weights += $map[$k][$i]['weights'];
-                    }
+                    $weights = $this->computeRandomDirectWeightsChild($weights, $map[$k][$i]);
             }
+        }
+        return $weights;
+    }
+
+    public function computeRandomDirectWeightsChild($weights, $noteArea)
+    {
+        $teamId      = self::$teamId;
+        $enemyTeamId = self::$enemyTeamId;
+        if (preg_match("/{$teamId}\d/", $noteArea['element'])) {
+            $weights += 30;
+        } else if (preg_match("/{$enemyTeamId}\d/", $noteArea['element'])) {
+            $weights += $noteArea['weights'];
+        } else if (preg_match("/M[4-8]{1}/", $noteArea['element'])) {
+
+        } else {
+            $weights += $noteArea['weights'];
         }
         return $weights;
     }

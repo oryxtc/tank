@@ -44,7 +44,6 @@ class PlayerController extends Controller
 
     public function init(Request $request)
     {
-        $input = $request->all();
         Cache::put('start_date', time(), 20);
         return $this->apiReturn(null, "/init");
     }
