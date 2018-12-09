@@ -43,22 +43,10 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Tank/PlayerController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="588">
-              <caret line="87" column="62" selection-start-line="87" selection-start-column="62" selection-end-line="87" selection-end-column="62" />
+            <state relative-caret-position="540">
+              <caret line="84" column="62" selection-start-line="84" selection-start-column="62" selection-end-line="84" selection-end-column="62" />
               <folding>
                 <element signature="e#128#164#0#PHP" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/Http/Models/TankModel.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="437" column="21" selection-start-line="437" selection-start-column="21" selection-end-line="437" selection-end-column="21" />
-              <folding>
-                <element signature="e#118#155#0#PHP" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -67,8 +55,20 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/storage/logs/laravel-2018-12-09.log">
           <provider selected="true" editor-type-id="LogFileEditorProvider">
-            <state relative-caret-position="168">
-              <caret line="7" column="37" lean-forward="true" selection-start-line="7" selection-start-column="37" selection-end-line="7" selection-end-column="37" />
+            <state relative-caret-position="612">
+              <caret line="227" column="9" selection-start-line="227" selection-start-column="3" selection-end-line="227" selection-end-column="9" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/Http/Models/TankModel.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="149">
+              <caret line="702" column="27" selection-start-line="702" selection-start-column="27" selection-end-line="702" selection-end-column="27" />
+              <folding>
+                <element signature="e#118#155#0#PHP" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -92,6 +92,11 @@
       <find>local.INFO</find>
       <find>a1</find>
       <find>new</find>
+      <find>local.INFO</find>
+      <find>$BTanks</find>
+      <find>Tanks</find>
+      <find>BTanks</find>
+      <find>yidong</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -195,8 +200,8 @@
     </include_path>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="260" />
-    <option name="y" value="20" />
+    <option name="x" value="251" />
+    <option name="y" value="127" />
     <option name="width" value="1400" />
     <option name="height" value="1000" />
   </component>
@@ -278,7 +283,7 @@
       <workItem from="1544017180646" duration="3972000" />
       <workItem from="1544105437840" duration="3737000" />
       <workItem from="1544282481052" duration="6518000" />
-      <workItem from="1544323113747" duration="4981000" />
+      <workItem from="1544323113747" duration="13303000" />
     </task>
     <task id="LOCAL-00001" summary="finish init">
       <created>1543679527392</created>
@@ -357,11 +362,18 @@
       <option name="project" value="LOCAL" />
       <updated>1544323272064</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="优化代码">
+      <created>1544328328610</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1544328328610</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="69495000" />
+    <option name="totallyTimeSpent" value="77817000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -648,15 +660,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/storage/logs/laravel-2018-12-09.log">
       <provider selected="true" editor-type-id="LogFileEditorProvider">
-        <state relative-caret-position="168">
-          <caret line="7" column="37" lean-forward="true" selection-start-line="7" selection-start-column="37" selection-end-line="7" selection-end-column="37" />
+        <state relative-caret-position="612">
+          <caret line="227" column="9" selection-start-line="227" selection-start-column="3" selection-end-line="227" selection-end-column="9" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Tank/PlayerController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="588">
-          <caret line="87" column="62" selection-start-line="87" selection-start-column="62" selection-end-line="87" selection-end-column="62" />
+        <state relative-caret-position="540">
+          <caret line="84" column="62" selection-start-line="84" selection-start-column="62" selection-end-line="84" selection-end-column="62" />
           <folding>
             <element signature="e#128#164#0#PHP" expanded="true" />
           </folding>
@@ -665,8 +677,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Models/TankModel.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="437" column="21" selection-start-line="437" selection-start-column="21" selection-end-line="437" selection-end-column="21" />
+        <state relative-caret-position="149">
+          <caret line="702" column="27" selection-start-line="702" selection-start-column="27" selection-end-line="702" selection-end-column="27" />
           <folding>
             <element signature="e#118#155#0#PHP" expanded="true" />
           </folding>

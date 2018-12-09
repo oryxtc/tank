@@ -59,87 +59,150 @@ class TankModel
 
     public static $BTanks = [
         'B1' => [
-            "name"             => "K2黑豹",
-            "gongji"           => 3,
-            "shengming"        => 5,
-            "shengyushengming" => 5,
-            "yidong"           => 1,
-            "shecheng"         => 1,
-            "shiye"            => 1],
+            "name"      => "K2黑豹",
+            "gongji"    => 3,
+            "shengming" => 5,
+            "yidong"    => 1,
+            "shecheng"  => 1,
+            "shiye"     => 1],
         'B2' => [
-            "name"             => "T-90",
-            "gongji"           => 1,
-            "shengming"        => 10,
-            "shengyushengming" => 10,
-            "yidong"           => 1,
-            "shecheng"         => 1,
-            "shiye"            => 1],
+            "name"      => "T-90",
+            "gongji"    => 1,
+            "shengming" => 10,
+            "yidong"    => 1,
+            "shecheng"  => 1,
+            "shiye"     => 1],
         'B3' => [
-            "name"             => "K2黑豹",
-            "gongji"           => 3,
-            "shengming"        => 5,
-            "shengyushengming" => 5,
-            "yidong"           => 1,
-            "shecheng"         => 1,
-            "shiye"            => 1],
+            "name"      => "阿马塔",
+            "gongji"    => 1,
+            "shengming" => 4,
+            "yidong"    => 2,
+            "shecheng"  => 1,
+            "shiye"     => 2],
         'B4' => [
-            "name"             => "阿马塔",
-            "gongji"           => 1,
-            "shengming"        => 4,
-            "shengyushengming" => 4,
-            "yidong"           => 2,
-            "shecheng"         => 1,
-            "shiye"            => 2],
+            "name"      => "阿马塔",
+            "gongji"    => 1,
+            "shengming" => 4,
+            "yidong"    => 2,
+            "shecheng"  => 1,
+            "shiye"     => 2],
         'B5' => [
-            "name"             => "99主战坦克",
-            "gongji"           => 1,
-            "shengming"        => 3,
-            "shengyushengming" => 3,
-            "yidong"           => 1,
-            "shecheng"         => 3,
-            "shiye"            => 1],];
+            "name"      => "99主战坦克",
+            "gongji"    => 1,
+            "shengming" => 3,
+            "yidong"    => 1,
+            "shecheng"  => 3,
+            "shiye"     => 1],];
 
     public static $CTanks = [
         'C1' => [
-            "name"             => "K2黑豹",
-            "gongji"           => 3,
-            "shengming"        => 5,
-            "shengyushengming" => 5,
-            "yidong"           => 1,
-            "shecheng"         => 1,
-            "shiye"            => 1],
+            "name"      => "K2黑豹",
+            "gongji"    => 3,
+            "shengming" => 5,
+            "yidong"    => 1,
+            "shecheng"  => 1,
+            "shiye"     => 1],
         'C2' => [
-            "name"             => "T-90",
-            "gongji"           => 1,
-            "shengming"        => 10,
-            "shengyushengming" => 10,
-            "yidong"           => 1,
-            "shecheng"         => 1,
-            "shiye"            => 1],
+            "name"      => "T-90",
+            "gongji"    => 1,
+            "shengming" => 10,
+            "yidong"    => 1,
+            "shecheng"  => 1,
+            "shiye"     => 1],
         'C3' => [
-            "name"             => "K2黑豹",
-            "gongji"           => 3,
-            "shengming"        => 5,
-            "shengyushengming" => 5,
-            "yidong"           => 1,
-            "shecheng"         => 1,
-            "shiye"            => 1],
+            "name"      => "阿马塔",
+            "gongji"    => 1,
+            "shengming" => 4,
+            "yidong"    => 2,
+            "shecheng"  => 1,
+            "shiye"     => 2],
         'C4' => [
-            "name"             => "阿马塔",
-            "gongji"           => 1,
-            "shengming"        => 4,
-            "shengyushengming" => 4,
-            "yidong"           => 2,
-            "shecheng"         => 1,
-            "shiye"            => 2],
+            "name"      => "阿马塔",
+            "gongji"    => 1,
+            "shengming" => 4,
+            "yidong"    => 2,
+            "shecheng"  => 1,
+            "shiye"     => 2],
         'C5' => [
-            "name"             => "99主战坦克",
-            "gongji"           => 1,
-            "shengming"        => 3,
-            "shengyushengming" => 3,
-            "yidong"           => 1,
-            "shecheng"         => 3,
-            "shiye"            => 1],];
+            "name"      => "99主战坦克",
+            "gongji"    => 1,
+            "shengming" => 3,
+            "yidong"    => 1,
+            "shecheng"  => 3,
+            "shiye"     => 1]];
+
+    public static $tanks = [
+        'B1' => [
+            "name"      => "K2黑豹",
+            "gongji"    => 3,
+            "shengming" => 5,
+            "yidong"    => 1,
+            "shecheng"  => 1,
+            "shiye"     => 1],
+        'B2' => [
+            "name"      => "T-90",
+            "gongji"    => 1,
+            "shengming" => 10,
+            "yidong"    => 1,
+            "shecheng"  => 1,
+            "shiye"     => 1],
+        'B3' => [
+            "name"      => "阿马塔",
+            "gongji"    => 1,
+            "shengming" => 4,
+            "yidong"    => 2,
+            "shecheng"  => 1,
+            "shiye"     => 2],
+        'B4' => [
+            "name"      => "阿马塔",
+            "gongji"    => 1,
+            "shengming" => 4,
+            "yidong"    => 2,
+            "shecheng"  => 1,
+            "shiye"     => 2],
+        'B5' => [
+            "name"      => "99主战坦克",
+            "gongji"    => 1,
+            "shengming" => 3,
+            "yidong"    => 1,
+            "shecheng"  => 3,
+            "shiye"     => 1],
+        'C1' => [
+            "name"      => "K2黑豹",
+            "gongji"    => 3,
+            "shengming" => 5,
+            "yidong"    => 1,
+            "shecheng"  => 1,
+            "shiye"     => 1],
+        'C2' => [
+            "name"      => "T-90",
+            "gongji"    => 1,
+            "shengming" => 10,
+            "yidong"    => 1,
+            "shecheng"  => 1,
+            "shiye"     => 1],
+        'C3' => [
+            "name"      => "阿马塔",
+            "gongji"    => 1,
+            "shengming" => 4,
+            "yidong"    => 2,
+            "shecheng"  => 1,
+            "shiye"     => 2],
+        'C4' => [
+            "name"      => "阿马塔",
+            "gongji"    => 1,
+            "shengming" => 4,
+            "yidong"    => 2,
+            "shecheng"  => 1,
+            "shiye"     => 2],
+        'C5' => [
+            "name"      => "99主战坦克",
+            "gongji"    => 1,
+            "shengming" => 3,
+            "yidong"    => 1,
+            "shecheng"  => 3,
+            "shiye"     => 1]];
+
 
     public static $request;
     public static $tempArea;
@@ -328,11 +391,11 @@ class TankModel
                     $noteArea['row']       = $elementRow;
                     $noteArea['col']       = $col;
                     $noteArea['type']      = 'MOVE';
-                    $noteArea['length']    = $lengthMax;
+                    $noteArea['length']    = $i;
                     $noteArea['direction'] = $key;
                     //方向权重
-                    $noteArea['directionWeights'] = $this->computeDirectWeights($tank, $noteArea['row'], $noteArea['col'], $key, $map);
-                    $tempArea[]                   = $noteArea;
+                    $noteArea['weights'] = $this->computeDirectWeights($tank, $noteArea['row'], $noteArea['col'], $key, $map);
+                    $tempArea[]          = $noteArea;
                     unset($noteArea);
 
                 }
@@ -351,11 +414,11 @@ class TankModel
                     $noteArea['row']       = $row;
                     $noteArea['col']       = $elementCol;
                     $noteArea['type']      = 'MOVE';
-                    $noteArea['length']    = $lengthMax;
+                    $noteArea['length']    = $i;
                     $noteArea['direction'] = $key;
                     //方向权重
-                    $noteArea['directionWeights'] = $this->computeDirectWeights($tank, $noteArea['row'], $noteArea['col'], $key, $map);
-                    $tempArea[]                   = $noteArea;
+                    $noteArea['weights'] = $this->computeDirectWeights($tank, $noteArea['row'], $noteArea['col'], $key, $map);
+                    $tempArea[]          = $noteArea;
                     unset($noteArea);
                 }
             } elseif ($key === 'DOWN') {
@@ -373,11 +436,11 @@ class TankModel
                     $noteArea['row']       = $elementRow;
                     $noteArea['col']       = $col;
                     $noteArea['type']      = 'MOVE';
-                    $noteArea['length']    = $lengthMax;
+                    $noteArea['length']    = $i;
                     $noteArea['direction'] = $key;
                     //方向权重
-                    $noteArea['directionWeights'] = $this->computeDirectWeights($tank, $noteArea['row'], $noteArea['col'], $key, $map);
-                    $tempArea[]                   = $noteArea;
+                    $noteArea['weights'] = $this->computeDirectWeights($tank, $noteArea['row'], $noteArea['col'], $key, $map);
+                    $tempArea[]          = $noteArea;
                     unset($noteArea);
                 }
             } else if ($key === 'LEFT') {
@@ -395,11 +458,11 @@ class TankModel
                     $noteArea['row']       = $row;
                     $noteArea['col']       = $elementCol;
                     $noteArea['type']      = 'MOVE';
-                    $noteArea['length']    = $lengthMax;
+                    $noteArea['length']    = $i;
                     $noteArea['direction'] = $key;
                     //方向权重
-                    $noteArea['directionWeights'] = $this->computeDirectWeights($tank, $noteArea['row'], $noteArea['col'], $key, $map);
-                    $tempArea[]                   = $noteArea;
+                    $noteArea['weights'] = $this->computeDirectWeights($tank, $noteArea['row'], $noteArea['col'], $key, $map);
+                    $tempArea[]          = $noteArea;
                     unset($noteArea);
                 }
             }
@@ -415,34 +478,32 @@ class TankModel
             }
             return ($a['weights'] < $b['weights']) ? 1 : -1;
         });
-        $weightsMax = $tempArea[0]['weights'];
-        //过滤剩下相同最大权重值
-        $tempArea = array_filter($tempArea, function ($item) use ($weightsMax) {
-            return $item['weights'] == $weightsMax;
-        });
-        //排序方向权重最大情况
-        usort($tempArea, function ($a, $b) {
-            if ($a['directionWeights'] == $b['directionWeights']) {
-                return 0;
-            }
-            return ($a['directionWeights'] < $b['directionWeights']) ? 1 : -1;
-        });
-        $directionWeightsMax = $tempArea[0]['directionWeights'];
-        if ($directionWeightsMax == 0) {
+        if ($tempArea[0]['weights'] <= 0) {
             return [];
         }
-        $areaWeightsMax = $tempArea[0];
-        return $areaWeightsMax;
+        return $tempArea[0];
     }
 
-    private function computeDirectWeightsChild($weights, $noteArea, $tank)
+    private function computeDirectWeightsChild($weights, $noteArea, $tank, $distance)
     {
         $teamId      = self::$teamId;
         $enemyTeamId = self::$enemyTeamId;
-        if (preg_match("/{$teamId}\d/", $noteArea['element'])) {
-            $weights -= 30;
-        } elseif (preg_match("/{$enemyTeamId}\d/", $noteArea['element'])) {
-            //                    $weights += 30;
+        if (preg_match("/{$enemyTeamId}1/", $noteArea['element']) && preg_match("/{$teamId}[3-5]/", $tank['element']) && $distance == 1) {//如果对方是攻击强
+            $weights -= $noteArea['weights'] * 3;
+        } elseif (preg_match("/{$enemyTeamId}2/", $noteArea['element']) && preg_match("/{$teamId}[1]/", $tank['element']) && $distance == 1) { //对方防守强
+            $weights -= $noteArea['weights'] * 2;
+        } elseif (preg_match("/{$enemyTeamId}[3-4]/", $noteArea['element'])) {   //对方移动快
+            $weights += $noteArea['weights'] * ($distance / 10);
+        } elseif (preg_match("/{$enemyTeamId}5/", $noteArea['element']) && preg_match("/{$teamId}[1-4]/", $tank['element']) && $distance > 1) {//对方射程远
+            $weights -= $noteArea['weights'] * 2;
+        } elseif (preg_match("/{$enemyTeamId}5/", $noteArea['element']) && preg_match("/{$teamId}[1-4]/", $tank['element']) && $distance = 1) { //对方射程远
+            $weights += $noteArea['weights'] * 2;
+        } elseif (preg_match("/{$teamId}5/", $tank['element']) && preg_match("/{$enemyTeamId}[1-4]/", $noteArea['element']) && $distance > 1) { //我方射程远
+            $weights += $noteArea['weights'] * 2;
+        } else if (preg_match("/{$enemyTeamId}[1-5]/", $noteArea['element']) && $distance == 1) {
+            $weights -= $noteArea['weights'] * ($distance / 10);
+        } else if (preg_match("/{$teamId}[1-5]/", $noteArea['element']) && $distance < 8) {
+            $weights -= $noteArea['weights'] * ($distance / 10);
         } else {
             $weights += $noteArea['weights'];
         }
@@ -452,23 +513,17 @@ class TankModel
     public function computeDirectWeights($tank, $row, $col, $direction, $map)
     {
         $weights = 0;
+        $distance=1;
         if ($direction === 'UP') {
-            for ($i = $row; $i >= 0; $i--) {
-                $weights = $this->computeDirectWeightsChild($weights, $map[$i][$col], $tank);
-            }
+            $distance = abs($tank['row'] - $row);
         } elseif ($direction === 'RIGHT') {
-            for ($i = $col; $i < count($map[0], 0); $i++) {
-                $weights = $this->computeDirectWeightsChild($weights, $map[$row][$i], $tank);
-            }
+            $distance = abs($tank['col'] - $col);
         } elseif ($direction === 'DOWN') {
-            for ($i = $row; $i < count($map, 0); $i++) {
-                $weights = $this->computeDirectWeightsChild($weights, $map[$i][$col], $tank);
-            }
+            $distance = abs($tank['row'] - $row);
         } elseif ($direction === 'LEFT') {
-            for ($i = $col; $i >= 0; $i--) {
-                $weights = $this->computeDirectWeightsChild($weights, $map[$row][$i], $tank);
-            }
+            $distance = abs($tank['col'] - $col);
         }
+        $weights  = $this->computeDirectWeightsChild($weights, $map[$row][$col], $tank, $distance);
         return $weights;
     }
 
@@ -512,10 +567,9 @@ class TankModel
                     $noteArea['length']    = $i;
                     $noteArea['direction'] = $key;
                     //方向权重
-                    $noteArea['directionWeights'] = $this->computeRandomDirectWeights($noteArea['row'], $noteArea['col'], $key, $map);
+                    $noteArea['directionWeights'] = $this->computeRandomDirectWeights($noteArea, $key, $map, $tank);
                     $tempArea[]                   = $noteArea;
                     unset($noteArea);
-
                 }
             } elseif ($key === 'RIGHT') {
                 for ($i = 1; $i <= $lengthMax; $i++) {
@@ -538,7 +592,7 @@ class TankModel
                     $noteArea['length']    = $i;
                     $noteArea['direction'] = $key;
                     //方向权重
-                    $noteArea['directionWeights'] = $this->computeRandomDirectWeights($noteArea['row'], $noteArea['col'], $key, $map);
+                    $noteArea['directionWeights'] = $this->computeRandomDirectWeights($noteArea, $key, $map, $tank);
                     $tempArea[]                   = $noteArea;
                     unset($noteArea);
                 }
@@ -563,7 +617,7 @@ class TankModel
                     $noteArea['length']    = $i;
                     $noteArea['direction'] = $key;
                     //方向权重
-                    $noteArea['directionWeights'] = $this->computeRandomDirectWeights($noteArea['row'], $noteArea['col'], $key, $map);
+                    $noteArea['directionWeights'] = $this->computeRandomDirectWeights($noteArea, $key, $map, $tank);
                     $tempArea[]                   = $noteArea;
                     unset($noteArea);
                 }
@@ -588,7 +642,7 @@ class TankModel
                     $noteArea['length']    = $i;
                     $noteArea['direction'] = $key;
                     //方向权重
-                    $noteArea['directionWeights'] = $this->computeRandomDirectWeights($noteArea['row'], $noteArea['col'], $key, $map);
+                    $noteArea['directionWeights'] = $this->computeRandomDirectWeights($noteArea, $key, $map, $tank);
                     $tempArea[]                   = $noteArea;
                     unset($noteArea);
                 }
@@ -642,8 +696,11 @@ class TankModel
         return $areaWeightsMax;
     }
 
-    public function computeRandomDirectWeights($row, $col, $direction, $map)
+    public function computeRandomDirectWeights($noteArea, $direction, $map, $tank)
     {
+        $row=$noteArea['row'];
+        $col=$noteArea['col'];
+        $length=$noteArea['length'];
         $weights = 0;
         if ($map[$row][$col]['element'] === 'M2') {
             $weights += 30000;
@@ -651,32 +708,34 @@ class TankModel
         if ($direction === 'UP') {
             for ($i = $row; $i >= 0; $i--) {
                 for ($k = 0; $k < count($map[0], 0); $k++)
-                    $weights = $this->computeRandomDirectWeightsChild($weights, $map[$i][$k]);
+                    $weights = $this->computeRandomDirectWeightsChild($weights, $map[$i][$k], $tank, $length);
             }
         } elseif ($direction === 'RIGHT') {
             for ($i = $col; $i < count($map[0], 0); $i++) {
                 for ($k = 0; $k < count($map, 0); $k++)
-                    $weights = $this->computeRandomDirectWeightsChild($weights, $map[$k][$i]);
+                    $weights = $this->computeRandomDirectWeightsChild($weights, $map[$k][$i], $tank, $length);
             }
         } elseif ($direction === 'DOWN') {
             for ($i = $row; $i < count($map, 0); $i++) {
                 for ($k = 0; $k < count($map[0], 0); $k++)
-                    $weights = $this->computeRandomDirectWeightsChild($weights, $map[$i][$k]);
+                    $weights = $this->computeRandomDirectWeightsChild($weights, $map[$i][$k], $tank, $length);
             }
         } elseif ($direction === 'LEFT') {
             for ($i = $col; $i >= 0; $i--) {
                 for ($k = 0; $k < count($map, 0); $k++)
-                    $weights = $this->computeRandomDirectWeightsChild($weights, $map[$k][$i]);
+                    $weights = $this->computeRandomDirectWeightsChild($weights, $map[$k][$i], $tank, $length);
             }
         }
         return $weights;
     }
 
-    public function computeRandomDirectWeightsChild($weights, $noteArea)
+    public function computeRandomDirectWeightsChild($weights, $noteArea, $tank, $length)
     {
         $teamId      = self::$teamId;
         $enemyTeamId = self::$enemyTeamId;
-        if (preg_match("/{$teamId}\d/", $noteArea['element'])) {
+        if (preg_match("/{$teamId}[3-4]/", $tank['element'])) { //我方移动
+            $weights += ($noteArea['weights'] + 400 * ($length - 1));
+        } elseif (preg_match("/{$teamId}\d/", $noteArea['element'])) {
             $weights += 30;
         } else if (preg_match("/{$enemyTeamId}\d/", $noteArea['element'])) {
             $weights += $noteArea['weights'];

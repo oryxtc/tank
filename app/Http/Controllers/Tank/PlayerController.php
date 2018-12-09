@@ -52,7 +52,6 @@ class PlayerController extends Controller
     {
         $requestData = $request->all();
         $mapData     = $requestData['view']['map'];
-
         foreach ($mapData as $rowKey => $rowData) {
             $this->newMap[$rowKey] = $rowData;
             foreach ($rowData as $colKey => $val) {
@@ -61,6 +60,8 @@ class PlayerController extends Controller
                 $this->newMap[$rowKey][$colKey]['element'] = $val;
                 //当前区域元素二进制值
                 $this->newMap[$rowKey][$colKey]['flag'] = TankModel::$elementFlog[$val];
+                $this->newMap[$rowKey][$colKey]['row'] = $rowKey;
+                $this->newMap[$rowKey][$colKey]['col'] = $colKey;
                 //当前区域权重
                 if (!isset($this->newMap[$rowKey][$colKey]['weights'])) {
                     $this->newMap[$rowKey][$colKey]['weights'] = 0;
