@@ -142,11 +142,13 @@ class TankModel
             "shiye"            => 1],];
 
     public static $request;
+    public static $tempArea;
     public static $boss;
     public static $team;
     public static $teamId;
     public static $enemyTeam;
     public static $enemyTeamId;
+    public        $flagObstacle = false;
 
     public function __construct()
     {
@@ -329,7 +331,7 @@ class TankModel
                     $noteArea['length']    = $lengthMax;
                     $noteArea['direction'] = $key;
                     //方向权重
-                    $noteArea['directionWeights'] = $this->computeDirectWeights($noteArea['row'], $noteArea['col'], $key, $map);
+                    $noteArea['directionWeights'] = $this->computeDirectWeights($tank, $noteArea['row'], $noteArea['col'], $key, $map);
                     $tempArea[]                   = $noteArea;
                     unset($noteArea);
 
@@ -352,7 +354,7 @@ class TankModel
                     $noteArea['length']    = $lengthMax;
                     $noteArea['direction'] = $key;
                     //方向权重
-                    $noteArea['directionWeights'] = $this->computeDirectWeights($noteArea['row'], $noteArea['col'], $key, $map);
+                    $noteArea['directionWeights'] = $this->computeDirectWeights($tank, $noteArea['row'], $noteArea['col'], $key, $map);
                     $tempArea[]                   = $noteArea;
                     unset($noteArea);
                 }
@@ -374,7 +376,7 @@ class TankModel
                     $noteArea['length']    = $lengthMax;
                     $noteArea['direction'] = $key;
                     //方向权重
-                    $noteArea['directionWeights'] = $this->computeDirectWeights($noteArea['row'], $noteArea['col'], $key, $map);
+                    $noteArea['directionWeights'] = $this->computeDirectWeights($tank, $noteArea['row'], $noteArea['col'], $key, $map);
                     $tempArea[]                   = $noteArea;
                     unset($noteArea);
                 }
@@ -396,7 +398,7 @@ class TankModel
                     $noteArea['length']    = $lengthMax;
                     $noteArea['direction'] = $key;
                     //方向权重
-                    $noteArea['directionWeights'] = $this->computeDirectWeights($noteArea['row'], $noteArea['col'], $key, $map);
+                    $noteArea['directionWeights'] = $this->computeDirectWeights($tank, $noteArea['row'], $noteArea['col'], $key, $map);
                     $tempArea[]                   = $noteArea;
                     unset($noteArea);
                 }
@@ -433,7 +435,7 @@ class TankModel
         return $areaWeightsMax;
     }
 
-    private function computeDirectWeightsChild($weights, $noteArea)
+    private function computeDirectWeightsChild($weights, $noteArea, $tank)
     {
         $teamId      = self::$teamId;
         $enemyTeamId = self::$enemyTeamId;
@@ -447,24 +449,24 @@ class TankModel
         return $weights;
     }
 
-    public function computeDirectWeights($row, $col, $direction, $map)
+    public function computeDirectWeights($tank, $row, $col, $direction, $map)
     {
         $weights = 0;
         if ($direction === 'UP') {
             for ($i = $row; $i >= 0; $i--) {
-                $weights = $this->computeDirectWeightsChild($weights, $map[$i][$col]);
+                $weights = $this->computeDirectWeightsChild($weights, $map[$i][$col], $tank);
             }
         } elseif ($direction === 'RIGHT') {
             for ($i = $col; $i < count($map[0], 0); $i++) {
-                $weights = $this->computeDirectWeightsChild($weights, $map[$row][$i]);
+                $weights = $this->computeDirectWeightsChild($weights, $map[$row][$i], $tank);
             }
         } elseif ($direction === 'DOWN') {
             for ($i = $row; $i < count($map, 0); $i++) {
-                $weights = $this->computeDirectWeightsChild($weights, $map[$i][$col]);
+                $weights = $this->computeDirectWeightsChild($weights, $map[$i][$col], $tank);
             }
         } elseif ($direction === 'LEFT') {
             for ($i = $col; $i >= 0; $i--) {
-                $weights = $this->computeDirectWeightsChild($weights, $map[$row][$i]);
+                $weights = $this->computeDirectWeightsChild($weights, $map[$row][$i], $tank);
             }
         }
         return $weights;
@@ -478,7 +480,7 @@ class TankModel
      * @param $map
      * @return array|mixed
      */
-    public function computeRandom($tank, $row, $col, $map, $findGlod = false)
+    public function computeRandom($tank, $row, $col, $map)
     {
         $lengthMax    = $tank['yidong'];
         $flagObstacle = false;
@@ -592,15 +594,40 @@ class TankModel
                 }
             }
         }
+        self::$tempArea     = $tempArea;
+        $this->flagObstacle = $flagObstacle;
         //如果四周走不通 就原地开火
         if (empty($tempArea)) {
             return [
                 'type'      => 'FIRE',
-                'direction' => 'DOWN',
+                'direction' => array_keys($area)[rand(0, 3)],
                 'length'    => 1,];
         }
+        //排序权重最大的
+        usort($tempArea, function ($a, $b) {
+            if ($a['directionWeights'] == $b['directionWeights']) {
+                return 0;
+            }
+            return ($a['directionWeights'] < $b['directionWeights']) ? 1 : -1;
+        });
+        $areaWeightsMax = $tempArea[0];
+        if ($areaWeightsMax['directionWeights'] >= 10000) {
+            return $areaWeightsMax;
+        } elseif ($areaWeightsMax['directionWeights'] < 10000) {
+            return [];
+        }
+        return $areaWeightsMax;
+    }
+
+    /**
+     * 最终路线
+     * @return mixed
+     */
+    public function finalRoute()
+    {
+        $tempArea = self::$tempArea;
         //排序方向权重最大情况
-        if ($flagObstacle === true && $findGlod === false) {
+        if ($this->flagObstacle === true) {
             $areaWeightsMax = $this->randomDirection($tempArea);
         } else {
             //排序权重最大的
@@ -611,11 +638,6 @@ class TankModel
                 return ($a['directionWeights'] < $b['directionWeights']) ? 1 : -1;
             });
             $areaWeightsMax = $tempArea[0];
-        }
-        if ($findGlod === true && $areaWeightsMax['directionWeights'] >= 10000) {
-            return $areaWeightsMax;
-        } elseif ($findGlod === true && $areaWeightsMax['directionWeights'] < 10000) {
-            return [];
         }
         return $areaWeightsMax;
     }
@@ -660,6 +682,8 @@ class TankModel
             $weights += $noteArea['weights'];
         } else if (preg_match("/M[4-8]{1}/", $noteArea['element'])) {
 
+        } else if (preg_match("/M2/", $noteArea['element'])) {
+            $weights += $noteArea['weights'];
         } else {
             $weights += $noteArea['weights'];
         }

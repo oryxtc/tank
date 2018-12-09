@@ -81,7 +81,7 @@ class PlayerController extends Controller
                     //优先攻击
                     $noteData = (new TankModel())->computeAttack(array_merge($tankData, $newItem), $newRowKey, $newColKey, $newMap);
                     if (empty($noteData)) {
-                        $noteData = (new TankModel())->computeRandom(array_merge($tankData, $newItem), $newRowKey, $newColKey, $newMap, true);
+                        $noteData = (new TankModel())->computeRandom(array_merge($tankData, $newItem), $newRowKey, $newColKey, $newMap);
                     }
                     //次要移动
                     if (empty($noteData)) {
@@ -89,7 +89,7 @@ class PlayerController extends Controller
                     }
                     //最后随机
                     if (empty($noteData)) {
-                        $noteData = (new TankModel())->computeRandom(array_merge($tankData, $newItem), $newRowKey, $newColKey, $newMap);
+                        $noteData = (new TankModel())->finalRoute();
                     }
                     $useGlod        = (new TankModel())->computeGlod(array_merge($tankData, $newItem));
                     $responseData[] = [
