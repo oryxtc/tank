@@ -24,7 +24,7 @@ class TankModel
         'M6' => -350,
         'M7' => -350,
         'M8' => -350,
-        'A1' => 2500,
+        'A1' => 1200,
         'B1' => 800,
         'B2' => 200,
         'B3' => 400,
@@ -211,7 +211,7 @@ class TankModel
     public static $teamId;
     public static $enemyTeam;
     public static $enemyTeamId;
-    public        $flagObstacle = false;
+    public static $flagObstacle;
 
     public function __construct()
     {
@@ -512,8 +512,8 @@ class TankModel
 
     public function computeDirectWeights($tank, $row, $col, $direction, $map)
     {
-        $weights = 0;
-        $distance=1;
+        $weights  = 0;
+        $distance = 1;
         if ($direction === 'UP') {
             $distance = abs($tank['row'] - $row);
         } elseif ($direction === 'RIGHT') {
@@ -523,7 +523,7 @@ class TankModel
         } elseif ($direction === 'LEFT') {
             $distance = abs($tank['col'] - $col);
         }
-        $weights  = $this->computeDirectWeightsChild($weights, $map[$row][$col], $tank, $distance);
+        $weights = $this->computeDirectWeightsChild($weights, $map[$row][$col], $tank, $distance);
         return $weights;
     }
 
@@ -649,7 +649,7 @@ class TankModel
             }
         }
         self::$tempArea     = $tempArea;
-        $this->flagObstacle = $flagObstacle;
+        self::$flagObstacle = $flagObstacle;
         //如果四周走不通 就原地开火
         if (empty($tempArea)) {
             return [
@@ -681,7 +681,7 @@ class TankModel
     {
         $tempArea = self::$tempArea;
         //排序方向权重最大情况
-        if ($this->flagObstacle === true) {
+        if (self::$flagObstacle === true) {
             $areaWeightsMax = $this->randomDirection($tempArea);
         } else {
             //排序权重最大的
@@ -698,9 +698,9 @@ class TankModel
 
     public function computeRandomDirectWeights($noteArea, $direction, $map, $tank)
     {
-        $row=$noteArea['row'];
-        $col=$noteArea['col'];
-        $length=$noteArea['length'];
+        $row     = $noteArea['row'];
+        $col     = $noteArea['col'];
+        $length  = $noteArea['length'];
         $weights = 0;
         if ($map[$row][$col]['element'] === 'M2') {
             $weights += 30000;
@@ -726,25 +726,30 @@ class TankModel
                     $weights = $this->computeRandomDirectWeightsChild($weights, $map[$k][$i], $tank, $length);
             }
         }
+
         return $weights;
     }
 
     public function computeRandomDirectWeightsChild($weights, $noteArea, $tank, $length)
     {
-        $teamId      = self::$teamId;
-        $enemyTeamId = self::$enemyTeamId;
-        if (preg_match("/{$teamId}[3-4]/", $tank['element'])) { //我方移动
-            $weights += ($noteArea['weights'] + 400 * ($length - 1));
-        } elseif (preg_match("/{$teamId}\d/", $noteArea['element'])) {
-            $weights += 30;
+        $teamId        = self::$teamId;
+        $enemyTeamId   = self::$enemyTeamId;
+        $haveBaffleOne = (1 == (pow($tank['row'] - $noteArea['row'], 2) + pow($tank['col'] - $noteArea['col'], 2)));
+        $haveBaffleTwo = (4 == (pow($tank['row'] - $noteArea['row'], 2) + pow($tank['col'] - $noteArea['col'], 2)));
+        if (preg_match("/{$teamId}\d/", $noteArea['element'])) {
+            $weights -= 30;
         } else if (preg_match("/{$enemyTeamId}\d/", $noteArea['element'])) {
             $weights += $noteArea['weights'];
+        } else if (preg_match("/M[4-8]{1}/", $noteArea['element']) && ($haveBaffleOne || $haveBaffleTwo)) {
+            $weights -= 1500;
         } else if (preg_match("/M[4-8]{1}/", $noteArea['element'])) {
 
-        } else if (preg_match("/M2/", $noteArea['element'])) {
-            $weights += $noteArea['weights'];
         } else {
             $weights += $noteArea['weights'];
+        }
+        //我方移动 额外算距离
+        if (preg_match("/{$teamId}[3-4]/", $tank['element'])) {
+            $weights += 1 * ($length - 1);
         }
         return $weights;
     }

@@ -60,8 +60,8 @@ class PlayerController extends Controller
                 $this->newMap[$rowKey][$colKey]['element'] = $val;
                 //当前区域元素二进制值
                 $this->newMap[$rowKey][$colKey]['flag'] = TankModel::$elementFlog[$val];
-                $this->newMap[$rowKey][$colKey]['row'] = $rowKey;
-                $this->newMap[$rowKey][$colKey]['col'] = $colKey;
+                $this->newMap[$rowKey][$colKey]['row']  = $rowKey;
+                $this->newMap[$rowKey][$colKey]['col']  = $colKey;
                 //当前区域权重
                 if (!isset($this->newMap[$rowKey][$colKey]['weights'])) {
                     $this->newMap[$rowKey][$colKey]['weights'] = 0;
@@ -114,7 +114,13 @@ class PlayerController extends Controller
                     'useGlod'   => true];
             }
         }
-        //        Log::info($responseData);
+        //3,4优先行动
+        usort($responseData, function ($a) {
+            if (preg_match("/{$this->teamId}[3-4]/", $a['tId'])) {
+                return -1;
+            }
+            return 1;
+        });
         return $this->apiReturn($responseData, '/action');
     }
 }
