@@ -24,7 +24,7 @@ class TankModel
         'M6' => -350,
         'M7' => -350,
         'M8' => -350,
-        'A1' => 1200,
+        'A1' => 2500,
         'B1' => 800,
         'B2' => 200,
         'B3' => 400,
@@ -732,24 +732,19 @@ class TankModel
 
     public function computeRandomDirectWeightsChild($weights, $noteArea, $tank, $length)
     {
-        $teamId        = self::$teamId;
-        $enemyTeamId   = self::$enemyTeamId;
-        $haveBaffleOne = (1 == (pow($tank['row'] - $noteArea['row'], 2) + pow($tank['col'] - $noteArea['col'], 2)));
-        $haveBaffleTwo = (4 == (pow($tank['row'] - $noteArea['row'], 2) + pow($tank['col'] - $noteArea['col'], 2)));
-        if (preg_match("/{$teamId}\d/", $noteArea['element'])) {
-            $weights -= 30;
+        $teamId      = self::$teamId;
+        $enemyTeamId = self::$enemyTeamId;
+        if (preg_match("/{$teamId}[3-4]/", $tank['element'])) { //我方移动
+            $weights += ($noteArea['weights'] + 400 * ($length - 1));
+        } elseif (preg_match("/{$teamId}\d/", $noteArea['element'])) {
+            $weights += 30;
         } else if (preg_match("/{$enemyTeamId}\d/", $noteArea['element'])) {
             $weights += $noteArea['weights'];
-        } else if (preg_match("/M[4-8]{1}/", $noteArea['element']) && ($haveBaffleOne || $haveBaffleTwo)) {
-            $weights -= 1500;
         } else if (preg_match("/M[4-8]{1}/", $noteArea['element'])) {
-
+        } else if (preg_match("/M2/", $noteArea['element'])) {
+            $weights += $noteArea['weights'];
         } else {
             $weights += $noteArea['weights'];
-        }
-        //我方移动 额外算距离
-        if (preg_match("/{$teamId}[3-4]/", $tank['element'])) {
-            $weights += 1 * ($length - 1);
         }
         return $weights;
     }
